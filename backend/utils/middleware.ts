@@ -1,12 +1,11 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 // import session from "express-session";
 
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "../models/userModel";
 
-const middleWare = async (req: any, res: Response, next: any) => {
+const middleWare = async (req: Request, res: Response, next: any) => {
     try {
-
         //We ge the token from the request from the client
         const token = req.cookies.jwt;
         if (!token) {
@@ -33,7 +32,7 @@ const middleWare = async (req: any, res: Response, next: any) => {
         }
 
         //we set the user into the request;
-        res.locals.userId = user._id;
+        res.locals.userId = user._id; // So that it can be accessed later on
         
         //We execute the next function after the middleware
         next();

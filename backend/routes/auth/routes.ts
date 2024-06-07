@@ -10,9 +10,8 @@ const router = express.Router();
 
 router.post("/signup", async (req: Request, res: Response) => {
     try {
-
         //Check if passwords match
-        const {fullName, username, password, confirmPassword, porfilePicture} = req.body;
+        const {fullName, username, password, confirmPassword} = req.body;
         if (password != confirmPassword) {
             return res.status(400).json({error: "Passwords don't match"});
         }
@@ -24,7 +23,7 @@ router.post("/signup", async (req: Request, res: Response) => {
         }
 
         //Check if the data is properly formatted
-        if (!isString(fullName) || !isString(username) || !isString(password) || !isString(confirmPassword) || !isString(porfilePicture)) {
+        if (!isString(fullName) || !isString(username) || !isString(password) || !isString(confirmPassword)) {
             return res.status(400).json({error: "Data not properly formatted"});
         }
         
@@ -37,7 +36,7 @@ router.post("/signup", async (req: Request, res: Response) => {
             fullName,
             username,
             password: hashedPassword,
-            porfilePicture,
+            porfilePicture: "",
         });
 
 
@@ -64,15 +63,12 @@ router.post("/signup", async (req: Request, res: Response) => {
 
 router.post("/login", async (req: Request, res: Response) => {
     try {
-
         const{username, password} = req.body;
         //Look if the user exists
         const user = await User.findOne({username});
 
         //Check if the password is correct
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
-
-        console.log(password);
 
         //Return ambiguous data if one is incorrect
         if (!user || !isPasswordCorrect) {
