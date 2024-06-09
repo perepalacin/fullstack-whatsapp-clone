@@ -4,9 +4,7 @@ import cookieParser from "cookie-parser";
 
 import authRouter from './routes/auth/routes';
 import messagingRouter from './routes/msg/routes';
-import userRoutes from './routes/user/routes';
-
-import connectToDB from './utils/mongo';
+// import userRoutes from './routes/user/routes';
 
 dotenv.config();
 
@@ -26,9 +24,8 @@ app.use(cookieParser());
 //Routes
 app.use('/api/auth', authRouter);
 app.use('/api/msg', messagingRouter);
-app.use('/api/users', userRoutes);
+// app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => {
-    connectToDB();
     console.log(`Server running on port ${PORT}`)
 });

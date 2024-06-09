@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <div>
-        Welcome {authUser?.fullName}
+        Welcome {authUser?.fullname}
         <LogoutButton />
     </div>
   )

@@ -1,17 +1,11 @@
 import React, { ReactNode, createContext, useState, useContext } from "react";
+import { publicUserDetailsProps } from "../types";
 
-// Define the user details type
-export interface UserDetailsProps {
-    _id: string;
-    fullName: string;
-    username: string;
-    profilePicture: string;
-}
 
 // Define the context type
 interface AuthContextType {
-    authUser: UserDetailsProps | null;
-    setAuthUser: (user: UserDetailsProps | null) => void;
+    authUser: publicUserDetailsProps | null;
+    setAuthUser: (user: publicUserDetailsProps | null) => void;
 }
 
 // Initialize context with undefined to enforce usage in a provider
@@ -42,7 +36,7 @@ interface AuthContextProviderProps {
 }
 
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
-    const [authUser, setAuthUser] = useState<UserDetailsProps | null>(getStoredUser());
+    const [authUser, setAuthUser] = useState<publicUserDetailsProps | null>(getStoredUser());
 
     return (
         <AuthContext.Provider value={{ authUser, setAuthUser }}>
