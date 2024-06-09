@@ -6,53 +6,78 @@ import uuid4 from "uuid4";
 
 const router = express.Router();
 
-
-// router.get("/:chatId", middleWare, async (req: Request, res: Response) => {
-//     try {
-//         const {chatId} = req.params;
-
-//         if (!chatId ) {
-//             return res.status(400).json({error: "Chat id improperly formatted"})
-//         }
+interface participantsProps {
+    user_id: string;
+}
 
 
-//         const chat = await Chat.findById(chatId).populate("messages");
+router.get("/:chatId", middleWare, async (req: Request, res: Response) => {
+    try {
+        const {chatId} = req.params;
 
-//         if (!chat) {
-//             return res.status(404).json({error: "Chat room not found"});
-//         }
+        console.log("1");
+        if (!chatId ) {
+            return res.status(400).json({error: "Chat id improperly formatted"})
+        }
+        console.log("2");
 
-//         return res.status(200).json(chat.messages)
+        const userId = res.locals.userId;
+        if (!userId) {
+                return res.status(500).json({error: "Unauthorized request"});
+        }
+        console.log("3");
+
+        console.log(chatId);
+        //Check if user is in chat id, otherwise say its unauthorized
+        const participants = await sql<participantsProps[]>`SELECT user_id FROM chats_to_users WHERE chat_id = ${chatId}`;
+        console.log("4");
+        console.log(participants);
+
+        let authorized = false;
+        participants.forEach((item) => {
+            if (item.user_id === userId) {
+                authorized = true;
+            }
+        })
+
+        if (!authorized) {
+            return res.status(500).json({error: "Unauthorized user"});
+        }
+        console.log("5");
+
+        const messages = await sql`SELECT * FROM messages WHERE chat_id = ${chatId} ORDER BY created_at ASC`;
+        if (!messages) {
+            return res.status(404).json({error: "No messages were found"});
+        }
+
+        console.log(messages);
+
+        return res.status(200).json(messages);
 
 
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(500).json({error: "Internal Server Error to fetch messages"});
-//     }
-// })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: "Internal Server Error to fetch messages"});
+    }
+})
 
 router.post("/newdm/:receiverId", middleWare, async (req: Request, res: Response) => {
     try {
         //Get the params of the request
-        console.log("here");
         const {message} = req.body;
         const {receiverId} = req.params;
-        console.log("here2");
         if (!message) {
             return res.status(400).json({error: "Message is missing"});
         }
-        console.log("here3");
         // Get the sender id from the session
         const senderId = res.locals.userId.toString();
             if (!senderId) {
                 return res.status(500).json({error: "Unauthorized request"});
         }
-        console.log("here4");
 
         if (!receiverId) {
             return res.status(500).json({error: "Receiver id not properly formatted"});
         }
-        console.log("here5");
 
         //CHECK THAT THE RECEIVING USER EXISTS ON THE DB
         const usersData = await sql<publicUserDetailsProps[]>`SELECT id, username, fullname, profile_picture FROM users WHERE id = ${receiverId} LIMIT 1`;  
@@ -60,7 +85,6 @@ router.post("/newdm/:receiverId", middleWare, async (req: Request, res: Response
         if (usersData.length === 0) {
             return res.status(404).json({error: "Receiver does not exist"});
         }        
-        console.log("here6");
 
         const chatRoom = await sql`SELECT chat_id
             FROM chats_to_users
@@ -78,13 +102,12 @@ router.post("/newdm/:receiverId", middleWare, async (req: Request, res: Response
         VALUES (${uuid}, ${''}, ${''}, 'private');`;
         await sql`INSERT INTO chats_to_users (user_id, chat_id)
         VALUES (${senderId}, ${uuid}), (${receiverId}, ${uuid});`;
-        const messageData = await sql`INSERT INTO messages (text, sender_id, room_id)
-        VALUES (${message}, ${senderId}, ${uuid}) RETURNING text, sender_id, room_id;`;
+        const messageData = await sql`INSERT INTO messages (text, sender_id, chat_id)
+        VALUES (${message}, ${senderId}, ${uuid}) RETURNING text, sender_id, chat_id;`;
 
         return res.status(200).json({messageData});
 
     } catch (error) {
-        console.log(error);
         return res.status(500).json({error: "Internal server error"});
     }
 });
@@ -118,9 +141,8 @@ router.post("/send/:chatId/", middleWare, async (req: Request, res: Response) =>
         const chat = query[0];
         //TODO:
         if (chat) {
-            const newMessage = await sql`INSERT INTO messages (text, sender_id, room_id)
-            VALUES (${message}, ${senderId}, ${chatId}) RETURNING text, sender_id, room_id;`;
-            console.log(newMessage);
+            const newMessage = await sql`INSERT INTO messages (text, sender_id, chat_id)
+            VALUES (${message}, ${senderId}, ${chatId}) RETURNING text, sender_id, chat_id;`;
             return res.status(200).json(newMessage);
         } else {
             return res.status(404).json({error: "Chat id not found"});

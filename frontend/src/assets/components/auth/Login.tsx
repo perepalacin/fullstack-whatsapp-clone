@@ -1,11 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Slide, ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import {z} from "zod";
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuthContext } from '../../../context/AuthContext';
+import { notifyError } from '../Toasts';
 
 
 const formSchema = z.object({
@@ -20,18 +21,6 @@ const Login = () => {
   
   const {setAuthUser} = useAuthContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const notify = (message: string) => toast.error(message, {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-    transition: Slide,
-    });
 
   const {
     register,
@@ -60,7 +49,7 @@ const Login = () => {
 
     } catch (error){
       if (error instanceof Error) {
-        notify(error.message);
+        notifyError(error.message);
           }
     } finally {
       setIsSubmitting(false);

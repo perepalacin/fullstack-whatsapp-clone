@@ -1,5 +1,6 @@
 import { useAuthContext } from '../../../context/AuthContext';
 import LogoutButton from '../auth/LogoutButton';
+import ConversationsBar from './ConversationsBar';
 
 const Home = () => {
 
@@ -8,6 +9,7 @@ const Home = () => {
   return (
     <div>
         Welcome {authUser?.fullname}
+        <ConversationsBar />
         <LogoutButton />
     </div>
   )

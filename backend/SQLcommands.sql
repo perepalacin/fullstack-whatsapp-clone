@@ -20,7 +20,8 @@ CREATE TABLE messages (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   text VARCHAR(1000),
   sender_id UUID NOT NULL REFERENCES users(id),
-  room_id UUID NOT NULL REFERENCES chats(id)
+  chat_id UUID NOT NULL REFERENCES chats(id),
+  created_at TIMESTAMP DEFAULT NOW()
 );
 
 -- Create joint table to relate users to chats;
