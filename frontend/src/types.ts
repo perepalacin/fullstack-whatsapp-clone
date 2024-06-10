@@ -10,3 +10,14 @@ export interface publicUserDetailsProps {
 export interface privateUserDetailsProps extends publicUserDetailsProps {
     password: string;
 }
+
+export interface OnGoingChatsProps {
+    chat_id: String;
+    chat_name: String;
+    chat_picture: String;
+    chat_type: String;
+    last_message_text: String;
+    last_message_timestamp: String;
+    sender_fullname: String;
+    participants: publicUserDetailsProps[];
+}

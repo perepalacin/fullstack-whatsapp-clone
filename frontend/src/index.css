@@ -1,0 +1,269 @@
+/* FONT CLASSES */
+.roboto-thin {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+  }
+  
+  .roboto-light {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  .roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .roboto-medium {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  .roboto-bold {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .roboto-black {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+  }
+  
+  .roboto-thin-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-style: italic;
+  }
+  
+  .roboto-light-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+  }
+  
+  .roboto-regular-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .roboto-medium-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: italic;
+  }
+  
+  .roboto-bold-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+  
+  .roboto-black-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: italic;
+  }  
+
+/* FONT CLASSES */
+
+:root {
+    --accent: #202C33;
+    --bg: #111B21;
+    --text-color: #FFFFFF;
+    --secondary: #AEBAC1;
+    --tertiary: #8696A0;
+    --border-hover-color: #202C33; 
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+/* GENERAL HTML TAGS */
+
+#root {
+    min-height: 100vh;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+p {
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    }
+    
+    
+    .main-root {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: start;
+        min-height: 100vh;
+    }
+    
+    nav {
+        width: 45%;
+        min-height: 100vh;
+        background-color: var(--bg);
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+
+/* GENERAL HTML TAGS */
+
+
+/* GENERAL TAILWINDLIKE CLASSES */
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+    
+.w-full {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* GENERAL TAILWINDLIKE CLASSES */
+
+/* SIDE BAR CLASSES */
+
+.profile-banner {
+    justify-content: space-between;
+    background-color: var(--accent);
+    padding: 0.5rem;
+}
+
+.profile-banner div {
+    padding: 0.5rem 0.75rem;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.icon-button {
+    background-color: rgba(0, 0, 0, 0);
+    padding: 0px;
+    margin: 0;
+    border: none;
+    color: var(--secondary);
+    cursor: pointer;
+}
+
+.profile-picture-bubble {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.search-bar {
+    padding: 0.5rem; /* Should be the same as in the chats-list li class */
+    width: 100%;
+}
+
+.search-bar input {
+    border: none;
+    background-color: var(--accent);
+    padding: 0.75rem 0rem 0.75rem 3rem; 
+    border-radius: 0.35rem;
+    position: relative;
+    color: var(--text-color);
+}
+
+.search-bar input::placeholder {
+    color: var(--tertiary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+.chats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.chats-list li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem; /* Should be the same as in the search bar class */ 
+    border-top: 1px solid var(--border-hover-color);
+}
+
+.chats-list li:hover {
+    background-color: #202C33;
+    transition-duration: 200ms;
+    transition: all;
+}
+
+.user-name {
+    font-size: 1.1rem;
+}
+
+.message-preview {
+    width: 45ch;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 0.9rem;
+    color: var(--secondary);
+}
+
+.msg-date-preview {
+    color: var(--secondary);
+    font-size: 0.8rem;
+}
+
+/* SIDEBAR CLASSES */
+
+
+/* HOVERBOX */
+
+.hover-box {
+    z-index: 50;
+    position: absolute;
+    color: white;
+    border: 1px solid white;
+    background-color: #3e3e3e;
+    /* ADD SMOOTH ANIMATIONS */
+}
+
+.icon-button .hover-box {
+    visibility: hidden;
+}
+
+.icon-button:hover .hover-box {
+    visibility: visible;
+}
+
+/* HOVERBOX */

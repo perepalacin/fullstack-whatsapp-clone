@@ -1,26 +1,42 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ToastContainer } from 'react-toastify';
+import { Slide, ToastContainer, toast } from 'react-toastify';
 import {z} from "zod";
 
 import 'react-toastify/dist/ReactToastify.css';
-import { useAuthContext } from '../../../context/AuthContext';
-import { notifyError } from '../Toasts';
+import { useAuthContext } from '../../context/AuthContext';
 
 
 const formSchema = z.object({
-    username: z.string().min(1, {message: "Username is required"}),
-    password: z.string().min(1, {message: "Password is required"}),
-});
+    fullName: z.string().min(1, {message: "Your full name must have at least two characters"}),
+    username: z.string().min(8, {message: "Your username should have at least 8 characters"}),
+    password: z.string().min(8, {message: "Your password should have at least 8 characters"}),
+    confirmPassword: z.string(),
+})    .refine( ( { password, confirmPassword } ) => password === confirmPassword, {
+  message: 'Passwords must match',
+  path: [ 'confirmPassword' ],
+} );
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
 
-const Login = () => {
+const SignUp = () => {
   
   const {setAuthUser} = useAuthContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const notify = (message: string) => toast.error(message, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    transition: Slide,
+    });
 
   const {
     register,
@@ -33,7 +49,7 @@ const Login = () => {
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setIsSubmitting(true);
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
@@ -49,7 +65,7 @@ const Login = () => {
 
     } catch (error){
       if (error instanceof Error) {
-        notifyError(error.message);
+        notify(error.message);
           }
     } finally {
       setIsSubmitting(false);
@@ -61,7 +77,14 @@ const Login = () => {
     <main>
     <ToastContainer/>
     <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Log in</h1>
+        <h1>Sign up</h1>
+        <section>
+            <label>
+                    Full name:
+            </label>
+            <input disabled={isSubmitting} placeholder='Giorgio Bambino' {...register('fullName')}/>
+            {errors.fullName?.message && <p>{errors.fullName?.message}</p>}
+        </section>
         <section>
             <label>
                     Username:
@@ -75,17 +98,25 @@ const Login = () => {
             </label>
             <input disabled={isSubmitting} type='password' {...register('password')}/>
             {errors.password?.message && <p>{errors.password?.message}</p>}
+
         </section>
-        <button disabled={isSubmitting} type='submit'>Log in</button>
+        <section>
+            <label>
+                    Repeat password:
+            </label>
+            <input disabled={isSubmitting} type='password' {...register('confirmPassword')}/>
+            {errors.confirmPassword?.message && <p>{errors.confirmPassword?.message}</p>}
+        </section>
+        <button disabled={isSubmitting} type='submit'>Sign up</button>
     </form>
-    <p>You don't have an account?</p>
-    <a href='/signup'>
-        <button type='button'>
-            Sign up
-        </button>
+    <p>Already have an account?</p>
+    <a href='/login'>
+      <button type='button'>
+        Log in
+      </button>
     </a>
     </main>
   )
 }
 
-export default Login
+export default SignUp

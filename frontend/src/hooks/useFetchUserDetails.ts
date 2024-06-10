@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react"
 import { notifyError } from "../components/Toasts";
-import { OnGoingChatsProps } from "../types";
+import { OnGoingChatsProps, publicUserDetailsProps } from "../types";
 
-const useFetchChats = () => {
+const useFetchUserDetails = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const [chats, setChats] = useState<OnGoingChatsProps[]>([]);
+    const [userDetails, setUserDetails] = useState<publicUserDetailsProps>();
 
 
-    const fetchChats = async () => {
+    const fetchUserDetails = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch(`/api/users/chats`);
+            const res = await fetch(`/api/user/logged-user`);
             //TODO: FETCH THE DATA OF 1 MEMBER OF THE GROUP, IF THE CONVERSATION IS PRIVATE, RENDER THAT USER
             const data = await res.json();
 
             if (data.error) {
                 throw new Error (data.error.message);
-                }
+            }
 
-                setChats(data);
+            setUserDetails(data[0]);
 
         } catch (error){
             
@@ -32,11 +32,11 @@ const useFetchChats = () => {
     }
 
     useEffect(() => {
-        fetchChats();
+        fetchUserDetails();
     }, []);
 
-    return {chats, isLoading};
+    return {userDetails, isLoading};
 
 }
 
-export default useFetchChats
+export default useFetchUserDetails
