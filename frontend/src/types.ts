@@ -21,3 +21,11 @@ export interface OnGoingChatsProps {
     sender_fullname: String;
     participants: publicUserDetailsProps[];
 }
+
+export interface ChatsContextStateProps {
+    chat_id: String;
+    chat_name: String;
+    chat_picture: String;
+    chat_type: String;
+    participants: publicUserDetailsProps;
+}   

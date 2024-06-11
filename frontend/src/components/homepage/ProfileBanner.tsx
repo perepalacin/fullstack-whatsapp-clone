@@ -1,10 +1,22 @@
 import { MessageSquarePlus, UsersRound } from "lucide-react";
 import useFetchUserDetails from "../../hooks/useFetchUserDetails"
 import HoverBox from "../extras/HoverBox";
+import { useAuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const ProfileBanner = () => {
 
-    const  {userDetails, isLoading} = useFetchUserDetails();
+    const navigate = useNavigate();
+
+    const {authUser} = useAuthContext();
+
+
+    if (!authUser){
+        navigate("/login");
+        return null;
+    }
+    const  {userDetails, isLoading} = useFetchUserDetails(authUser.id);
+    
     return (
     <section className="profile-banner w-full flex-row">
         <img className="profile-picture-bubble " src={userDetails?.profile_picture || "https://xsgames.co/randomusers/assets/avatars/male/36.jpg"} alt="User's Picture" />

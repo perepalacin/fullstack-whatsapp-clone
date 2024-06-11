@@ -56,6 +56,7 @@ router.get("/chats/", middleWare, async (_req: Request, res: Response) => {
                     users u2 ON ctu.user_id = u2.id
                 WHERE 
                     ctu.chat_id = c.id
+                    AND u2.id <> ${loggedInUser}
             ) AS participants
         FROM 
             chats c
@@ -79,6 +80,7 @@ router.get("/chats/", middleWare, async (_req: Request, res: Response) => {
             ctu2.user_id = ${loggedInUser}
         ORDER BY 
             c.id`;
+
 
         return res.status(200).json(chats);
     
