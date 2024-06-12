@@ -10,28 +10,21 @@ interface participantsProps {
     user_id: string;
 }
 
-
-router.get("/:chatId", middleWare, async (req: Request, res: Response) => {
+router.get("/chat/:chatId", middleWare, async (req: Request, res: Response) => {
     try {
         const {chatId} = req.params;
 
-        console.log("1");
         if (!chatId ) {
             return res.status(400).json({error: "Chat id improperly formatted"})
         }
-        console.log("2");
 
         const userId = res.locals.userId;
         if (!userId) {
                 return res.status(500).json({error: "Unauthorized request"});
         }
-        console.log("3");
 
-        console.log(chatId);
         //Check if user is in chat id, otherwise say its unauthorized
         const participants = await sql<participantsProps[]>`SELECT user_id FROM chats_to_users WHERE chat_id = ${chatId}`;
-        console.log("4");
-        console.log(participants);
 
         let authorized = false;
         participants.forEach((item) => {
@@ -43,17 +36,13 @@ router.get("/:chatId", middleWare, async (req: Request, res: Response) => {
         if (!authorized) {
             return res.status(500).json({error: "Unauthorized user"});
         }
-        console.log("5");
 
         const messages = await sql`SELECT * FROM messages WHERE chat_id = ${chatId} ORDER BY created_at ASC`;
         if (!messages) {
             return res.status(404).json({error: "No messages were found"});
         }
 
-        console.log(messages);
-
         return res.status(200).json(messages);
-
 
     } catch (error) {
         console.log(error);

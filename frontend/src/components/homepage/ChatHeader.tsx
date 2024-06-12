@@ -1,5 +1,6 @@
 import { EllipsisVertical, Search } from "lucide-react"
 import { useChatsContext } from "../../context/ChatsContext"
+import HoverBox from "../extras/HoverBox";
 
 const ChatHeader = () => {
 
@@ -14,10 +15,12 @@ const ChatHeader = () => {
     <div className="flex-row">
         <button className ="icon-button" onClick={() => {}}> 
           <Search />
+          <HoverBox prompt={"Search..."} />
          </button>
         {/* TODO: Open dialog to create new group */}
         <button className ="icon-button" onClick={() => {}}>
           <EllipsisVertical />
+          <HoverBox prompt={"Menu"} />
         </button>
 
     </div>

@@ -80,6 +80,7 @@
     --secondary: #AEBAC1;
     --tertiary: #8696A0;
     --border-hover-color: #202C33; 
+    --chat-bg: #0B141A;
     --selected-chat-color: #2A3942;
     min-height: 100vh;
     font-family: 'Roboto', sans-serif;
@@ -90,6 +91,7 @@
 
 #root {
     min-height: 100vh;
+    background-color: var(--chat-bg);
 }
 
 body {
@@ -203,6 +205,8 @@ ul {
     padding: 0.75rem 0rem 0.75rem 3rem; 
     border-radius: 0.35rem;
     position: relative;
+    font-size: 1rem;
+    font-weight: 500;
     color: var(--text-color);
 }
 
@@ -232,7 +236,7 @@ textarea:focus, input:focus{
 }
 
 .chats-list li:hover {
-    background-color: #202C33;
+    background-color: var(--border-hover-color);
     transition-duration: 200ms;
     transition: all;
 }
@@ -285,9 +289,42 @@ textarea:focus, input:focus{
     justify-content: space-between;
     flex-grow: 1; 
     background-image: url(https://camo.githubusercontent.com/cba518ead87b032dc6f1cbfc7fade27604449201ac1baf34d889f77f093f01ac/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393562366237333364393131306234303866303735642e706e67);
-    background-repeat: no-repeat; 
+    background-repeat: repeat;
+    opacity: 25%;
+    background-size: fill;
     width: 100%; 
     height: 100%;
+}
+
+.message-bar {
+    padding: 0.5rem; /* Should be the same as in the chats-list li class */
+    width: 100%;
+    background-color: var(--border-hover-color);
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem 1rem 0.75rem 1rem;
+}
+
+.message-bar input {
+    border: none;
+    background-color: var(--selected-chat-color);
+    padding: 0.75rem 3rem; 
+    border-radius: 0.35rem;
+    position: relative;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.message-bar input::placeholder {
+    color: var(--tertiary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.chat-bubble {
+    padding: 0.75rem;
+    color: var(--text-color);
 }
 
 /* CHAT SECTION */

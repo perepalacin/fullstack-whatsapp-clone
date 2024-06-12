@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react"
 import { notifyError } from "../components/Toasts";
-import { OnGoingChatsProps } from "../types";
+import { ChatMessages } from "../types";
 
-const useFetchChats = () => {
+const useFetchChatMsgs = (chat_id: String) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [chats, setChats] = useState<OnGoingChatsProps[]>([]);
+    const [chatMessages, setChatMessages] = useState<ChatMessages[]>([]);
 
 
-    const fetchChats = async () => {
+    const fetchChatMessages = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch(`/api/users/chats`);
-            //TODO: FETCH THE DATA OF 1 MEMBER OF THE GROUP, IF THE CONVERSATION IS PRIVATE, RENDER THAT USER
+            const res = await fetch(`/api/msg/chat/${chat_id}`);
             const data = await res.json();
 
             if (data.error) {
                 throw new Error (data.error.message);
-                }
+            }
 
-                setChats(data);
+            setChatMessages(data);
 
         } catch (error){
             
@@ -32,11 +31,11 @@ const useFetchChats = () => {
     }
 
     useEffect(() => {
-        fetchChats();
+        fetchChatMessages();
     }, []);
 
-    return {chats, isLoading};
+    return {chatMessages, isLoading};
 
 }
 
-export default useFetchChats
+export default useFetchChatMsgs

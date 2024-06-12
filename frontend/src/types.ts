@@ -29,3 +29,11 @@ export interface ChatsContextStateProps {
     chat_type: String;
     participants: publicUserDetailsProps;
 }   
+
+export interface ChatMessages {
+    id: String;
+    text: String;
+    sender_id: String;
+    chat_id: String;
+    created_at: String;
+}

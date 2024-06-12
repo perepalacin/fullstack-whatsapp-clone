@@ -17,6 +17,7 @@ const Home = () => {
           <ConversationsBar />
           <LogoutButton />
         </nav>
+        {/* TODO: If no chat is selected, render something else! like a wellcome page */}
       <div className='w-full flex-col h-full'>
         <ChatHeader />
         <Chat />
