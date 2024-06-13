@@ -50,16 +50,19 @@ const Chat = () => {
   //TOOD: FIX BACKGROUND OPACITY ISSUE!
   return (
     <section className='flex-col w-full chat-section' >
-        <div  className= "flex-col w-full" style={{padding: "0rem 4rem"}}>
+        <div  className= "flex-col w-full" style={{marginTop: '2rem', padding: "0rem 4rem", gap:'0.1rem', overflowY: 'scroll'}}>
           {chatMessages.map((item) => {
             let isOwnMsg = false;
+            const MessageDate = new Date(item.created_at.replace(' ', 'T'));
+
             if (item.sender_id === authUser.id) {
               isOwnMsg = true;
             } 
             return (
               <div className='flex-row w-full' style={{justifyContent: isOwnMsg ? "end" : "start"}}>
-                <div className='chat-bubble'>
+                <div className='chat-bubble' style={{backgroundColor: isOwnMsg ? '#005C4B' : '#202C33'}}>
                   <p>{item.text}</p>
+                  <p className='msg-time'>{MessageDate.getHours() + ":" + MessageDate.getMinutes()}</p>
                 </div>
               </div>
             )
