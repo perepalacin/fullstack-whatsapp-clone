@@ -37,3 +37,10 @@ export interface ChatMessages {
     chat_id: String;
     created_at: String;
 }
+
+export interface Chats {
+    chat: {
+        chat_id: String;
+        messages: ChatMessages[]
+    }
+}
