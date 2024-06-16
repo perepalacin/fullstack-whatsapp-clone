@@ -1,8 +1,5 @@
-import { useState } from 'react';
-import { useAuthContext } from '../../context/AuthContext';
 import LogoutButton from '../auth/LogoutButton';
 import ConversationsBar from './ConversationsBar';
-import ContactList from './ContactList';
 import ProfileBanner from './ProfileBanner';
 import ChatHeader from './ChatHeader';
 import { ChatsContextProvider } from '../../context/ChatsContext';

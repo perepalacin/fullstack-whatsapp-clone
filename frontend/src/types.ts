@@ -15,11 +15,12 @@ export interface OnGoingChatsProps {
     chat_id: String;
     chat_name: String;
     chat_picture: String;
-    chat_type: String;
-    last_message_text: String;
-    last_message_timestamp: String;
-    sender_fullname: String;
+    // chat_type: String;
+    // last_message_text: String;
+    // last_message_timestamp: String;
+    // sender_fullname: String;
     participants: publicUserDetailsProps[];
+    messages: ChatMessages[];
 }
 
 export interface ChatsContextStateProps {

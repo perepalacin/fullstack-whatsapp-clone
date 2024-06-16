@@ -2,22 +2,34 @@ import { Search } from 'lucide-react';
 import { useChatsContext } from '../../context/ChatsContext';
 import { OnGoingChatsProps } from '../../types';
 import useFetchOnGoingChats from '../../hooks/useFetchOnGoingChats';
+import { useEffect } from 'react';
 
 const ConversationsBar = () => {
 	
-    const { isLoading, chats } = useFetchOnGoingChats();
+    const { isLoading } = useFetchOnGoingChats();
 
-    const {selectedChat, setSelectedChat} = useChatsContext();
+    const {selectedChat, setSelectedChat, onGoingChats} = useChatsContext();
 
     const handleSelectChat = (item: OnGoingChatsProps) => {
+        console.log(item);
         setSelectedChat({
             chat_id: item.chat_id,
             chat_name: item.chat_name,
-            chat_type: item.chat_type,
+            // chat_type: item.chat_type,
             chat_picture: item.chat_picture,
-            participants: item.participants[0],
+            participants: item.participants,
+            messages: item.messages,
         });
     };
+
+    if (!onGoingChats) {
+        // TODO: Style this return
+        return (
+            <p>
+                No active conversations
+            </p>
+        )
+    }
 
   return (
     <div className='w-full'>
@@ -26,9 +38,9 @@ const ConversationsBar = () => {
             <Search style={{position: 'absolute', left: '1rem', paddingTop: '0.55rem'}} size={20} />
         </section>
         <ul className='chats-list w-full'>
-            {chats.map((item, index) => {
+            {onGoingChats.map((item, index) => {
                 //We need to convert the timestamp format from postgres to date in javascript
-                const lastMessageDate = new Date(item.last_message_timestamp.replace(' ', 'T'));
+                const lastMessageDate = new Date(item.messages[item.messages.length-1].created_at.replace(' ', 'T'));
                 //If the last msg is from today, we just print the hour, else we print the date
                 const today = new Date();
                 let isToday = false;
@@ -42,7 +54,7 @@ const ConversationsBar = () => {
                             <img  className="profile-picture-bubble " src={item.participants[0]?.profile_picture || "https://xsgames.co/randomusers/assets/avatars/male/36.jpg"} alt="User's Picture" />
                             <div className='flex-col' style={{gap: '0.5rem'}}>
                                 <p className='user-name'>{item.participants[0].username}</p>
-                                <p className='message-preview'>{item.last_message_text}</p>
+                                <p className='message-preview'>{item.messages[item.messages.length-1].text}</p>
                             </div>
                         </div>
                         <p className='msg-date-preview'>

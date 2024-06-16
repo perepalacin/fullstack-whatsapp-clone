@@ -1,11 +1,13 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import { ChatsContextStateProps } from "../types";
+import { ChatsContextStateProps, OnGoingChatsProps } from "../types";
 
 
 // Define the context type
 interface ChatContextType {
-    selectedChat: ChatsContextStateProps | null;
-    setSelectedChat: (openChats: ChatsContextStateProps | null) => void;
+    selectedChat: OnGoingChatsProps | null;
+    setSelectedChat: (openChats: OnGoingChatsProps | null) => void;
+    onGoingChats: OnGoingChatsProps[] | null;
+    setOnGoingChats: (openChats: OnGoingChatsProps[] | null) => void;
 }
 
 
@@ -26,10 +28,14 @@ interface ChatsContextProviderProps {
 }
 
 export const ChatsContextProvider: React.FC<ChatsContextProviderProps> = ({ children }) => {
-    const [selectedChat, setSelectedChat] = useState<ChatsContextStateProps | null>(null);
+    // State that holds the info about the selected chat
+    const [selectedChat, setSelectedChat] = useState<OnGoingChatsProps | null>(null);
+    // State that holds the info about all the chats the user currently has open.
+    const [onGoingChats, setOnGoingChats] = useState<OnGoingChatsProps[] | null>(null);
+
 
     return (
-        <ChatsContext.Provider value={{ selectedChat, setSelectedChat }}>
+        <ChatsContext.Provider value={{ selectedChat, setSelectedChat, onGoingChats, setOnGoingChats }}>
             {children}
         </ChatsContext.Provider>
     );

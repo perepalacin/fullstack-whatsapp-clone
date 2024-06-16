@@ -23,13 +23,13 @@ router.get("/", middleWare, async (_req: Request, res: Response) => {
     }
 });
 
-router.get("/chats/", middleWare, async (_req: Request, res: Response) => {
+router.get("/chats", middleWare, async (_req: Request, res: Response) => {
     try {
         const loggedInUser = res.locals.userId;
         // const chats = await sql`SELECT * from chats JOIN chats_to_users ON chats_to_users.user_id = ${loggedInUser} JOIN users ON chats_to_users `;
         // const chats = await sql`SELECT * FROM messages ORDER BY created_at ASC JOIN chats_to_users ON chats_to_users.user_id = ${loggedInUser} GROUP BY chat_id`;
-        const chats = await sql<OnGoingChatsProps[]>`
-        SELECT 
+        const data = await sql`
+        SELECT
             c.id AS chat_id,
             c.name AS chat_name,
             c.picture AS chat_picture,
@@ -41,7 +41,7 @@ router.get("/chats/", middleWare, async (_req: Request, res: Response) => {
             u.username AS sender_username,
             u.fullname AS sender_fullname,
             (
-                SELECT 
+                SELECT
                     jsonb_agg(
                         jsonb_build_object(
                             'user_id', u2.id,
@@ -50,40 +50,63 @@ router.get("/chats/", middleWare, async (_req: Request, res: Response) => {
                             'profile_picture', u2.profile_picture
                         )
                     )
-                FROM 
+                FROM
                     chats_to_users ctu
-                JOIN 
+                JOIN
                     users u2 ON ctu.user_id = u2.id
-                WHERE 
+                WHERE
                     ctu.chat_id = c.id
                     AND u2.id <> ${loggedInUser}
             ) AS participants
-        FROM 
+        FROM
             chats c
-        JOIN 
+        JOIN
             messages lm ON lm.id = (
-                SELECT 
-                    m.id 
-                FROM 
-                    messages m 
-                WHERE 
-                    m.chat_id = c.id 
-                ORDER BY 
-                    m.created_at DESC 
+                SELECT
+                    m.id
+                FROM
+                    messages m
+                WHERE
+                    m.chat_id = c.id
+                ORDER BY
+                    m.created_at DESC
                 LIMIT 1
             )
-        JOIN 
+        JOIN
             users u ON lm.sender_id = u.id
-        JOIN 
+        JOIN
             chats_to_users ctu2 ON c.id = ctu2.chat_id
-        WHERE 
+        WHERE
             ctu2.user_id = ${loggedInUser}
-        ORDER BY 
+        ORDER BY
             c.id`;
 
+        console.log(data);
+        data.forEach((item) => {
+            console.log(item.participants);
+        })
+        const chats: OnGoingChatsProps[] = [];
+        data.forEach((item) => {
+            const newChat: OnGoingChatsProps = {
+                chat_id: item.chat_id,
+                chat_name: item.chat_type === 'private' ? item.participants[0].fullname : item.chat_name,
+                chat_picture: item.chat_type === 'private' ? item.participants[0].profile_picture : item.chat_picture,
+                participants: item.participants,
+                messages: [
+                    {
+                        id: item.last_message_id,
+                        text: item.last_message_text,
+                        sender_id: item.sender_id,
+                        chat_id: item.chat_id,
+                        created_at: item.last_message_timestamp
+                    }
+                ]
+            }
+            chats.push(newChat);
+        });
 
         return res.status(200).json(chats);
-    
+
     } catch (error) {
         console.log("Error getting users" + error);
         return res.status(500).json({error: "Interval Server Error fetching users"});

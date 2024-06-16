@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { notifyError } from "../components/Toasts";
-import { OnGoingChatsProps } from "../types";
+import { useChatsContext } from "../context/ChatsContext";
 
 const useFetchOnGoingChats = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const [chats, setChats] = useState<OnGoingChatsProps[]>([]);
+    const { setOnGoingChats } = useChatsContext();
+
 
 
     const fetchChats = async () => {
@@ -18,7 +19,7 @@ const useFetchOnGoingChats = () => {
                 throw new Error (data.error.message);
                 }
 
-                setChats(data);
+                setOnGoingChats(data);
 
         } catch (error){
             
@@ -35,7 +36,7 @@ const useFetchOnGoingChats = () => {
         fetchChats();
     }, []);
 
-    return {chats, isLoading};
+    return {isLoading};
 
 }
 
