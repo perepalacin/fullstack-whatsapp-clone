@@ -29,7 +29,7 @@ const ConversationsBar = () => {
             <Search style={{position: 'absolute', left: '1rem', paddingTop: '0.55rem'}} size={20} />
         </section>
         <ul className='chats-list w-full'>
-            {onGoingChats.map((item, index) => {
+            {onGoingChats.map((item) => {
                 //We need to convert the timestamp format from postgres to date in javascript
                 const lastMessageDate = new Date(item.messages[item.messages.length-1].created_at.replace(' ', 'T'));
                 //If the last msg is from today, we just print the hour, else we print the date
@@ -38,14 +38,24 @@ const ConversationsBar = () => {
                 if (lastMessageDate.getDate() === today.getDate() && lastMessageDate.getMonth() === today.getMonth() && lastMessageDate.getFullYear() === today.getFullYear()) {
                     isToday = true;
                 }
+
+                let lastSender = "You";
+
+                // The participants array is missing the auth user! So if it doesnt find any, it is hardcoded to be the user!
+                item.participants.forEach((user) => {
+                    console.log(item.participants);
+                    if (user.id === item.messages[item.messages.length -1].sender_id) {
+                        lastSender = user.fullname;
+                    }
+                });
                 //TODO: Render hour or day depending if its today or no
                 return (
-                    <li key={index} onClick={()=> {handleSelectChat(item)}} style={{backgroundColor: selectedChat === item.chat_id ? '#2A3942' : ''}}>
+                    <li key={item.chat_id} onClick={()=> {handleSelectChat(item)}} style={{backgroundColor: selectedChat === item.chat_id ? '#2A3942' : ''}}>
                         <div className='flex-row' style={{alignItems: 'center', gap: '0.5rem'}}>
-                            <img  className="profile-picture-bubble " src={item.participants[0]?.profile_picture || "https://xsgames.co/randomusers/assets/avatars/male/36.jpg"} alt="User's Picture" />
+                            <img  className="profile-picture-bubble " src={item.chat_picture || "https://xsgames.co/randomusers/assets/avatars/male/36.jpg"} alt="User's Picture" />
                             <div className='flex-col' style={{gap: '0.5rem'}}>
-                                <p className='user-name'>{item.participants[0].username}</p>
-                                <p className='message-preview'>{item.messages[item.messages.length-1].text}</p>
+                                <p className='user-name'>{item.chat_name}</p>
+                                <p className='message-preview'>{lastSender +": " + item.messages[item.messages.length-1].text}</p>
                             </div>
                         </div>
                         <p className='msg-date-preview'>

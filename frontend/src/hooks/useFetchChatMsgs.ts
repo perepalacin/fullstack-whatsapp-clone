@@ -9,10 +9,17 @@ const useFetchChatMsgs = () => {
 
     useEffect(() => {
         const fetchChatMessages = async () => {
-            if (!selectedChat) {
+            if (!selectedChat || !onGoingChats) {
                 return;
             }
 
+        for (let i = 0; i < onGoingChats.length; i++) {
+            if (onGoingChats[i].chat_id === selectedChat && onGoingChats[i].messages.length > 1) {
+                return;
+            }
+        }
+
+        console.log("Fetch!");
             //TODO: Check somehow if the messages have already been fetched. 
             //even better,send the actual length of the array in the params of the api, fetch from the length + 50.
                 setIsLoading(true);
@@ -24,7 +31,6 @@ const useFetchChatMsgs = () => {
                         throw new Error(data.error.message);
                     }
 
-                    if (onGoingChats) {
                         const newChatArray = [...onGoingChats];
                         newChatArray.forEach((item) => {
                             if (item.chat_id === selectedChat) {
@@ -32,7 +38,6 @@ const useFetchChatMsgs = () => {
                             }
                         });
                         setOnGoingChats(newChatArray);
-                    }
 
                 } catch (error) {
                     if (error instanceof Error) {

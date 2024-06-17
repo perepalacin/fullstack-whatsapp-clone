@@ -21,7 +21,8 @@ const ChatHeader = () => {
   return (
     <section className="profile-banner w-full flex-row">
       <div className="flex-row" style={{gap: '1rem', alignItems: 'center', padding: 0}}>
-    <img className="profile-picture-bubble " src={"https://xsgames.co/randomusers/assets/avatars/male/36.jpg"} alt="User's Picture" />
+        {/* How can i fix this error? */}
+    <img className="profile-picture-bubble " src={activeChat?.chat_picture || ""} alt="User's Picture" />
     <p>{activeChat?.chat_name}</p>
       </div>
     <div className="flex-row">

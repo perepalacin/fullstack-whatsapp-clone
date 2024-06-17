@@ -13,6 +13,7 @@ const formSchema = z.object({
     username: z.string().min(8, {message: "Your username should have at least 8 characters"}),
     password: z.string().min(8, {message: "Your password should have at least 8 characters"}),
     confirmPassword: z.string(),
+    gender: z.string().min(1, {message: "Your gender is required"}),
 })    .refine( ( { password, confirmPassword } ) => password === confirmPassword, {
   message: 'Passwords must match',
   path: [ 'confirmPassword' ],
@@ -49,7 +50,8 @@ const SignUp = () => {
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setIsSubmitting(true);
     try {
-      const res = await fetch("/api/auth/signup", {
+
+      const res = await fetch("/api/auth/signup", { 
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
@@ -98,7 +100,6 @@ const SignUp = () => {
             </label>
             <input disabled={isSubmitting} type='password' {...register('password')}/>
             {errors.password?.message && <p>{errors.password?.message}</p>}
-
         </section>
         <section>
             <label>
@@ -107,6 +108,10 @@ const SignUp = () => {
             <input disabled={isSubmitting} type='password' {...register('confirmPassword')}/>
             {errors.confirmPassword?.message && <p>{errors.confirmPassword?.message}</p>}
         </section>
+        <select disabled={isSubmitting} {...register('gender')}>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
         <button disabled={isSubmitting} type='submit'>Sign up</button>
     </form>
     <p>Already have an account?</p>

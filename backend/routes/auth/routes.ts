@@ -5,13 +5,14 @@ import generateJWTSession from "../../utils/tokenGenerator";
 import { isString } from "../../utils/dataParser";
 import sql from "../../utils/connectToDB";
 import { publicUserDetailsProps, privateUserDetailsProps } from "../../../frontend/src/types";
+import { getRandomInt } from "../../utils/helperFunctions";
 
 const router = express.Router();
 
 router.post("/signup", async (req: Request, res: Response) => {
     try {
         //Check if passwords match
-        const {fullName, username, password, confirmPassword} = req.body;
+        const {fullName, username, password, confirmPassword, gender} = req.body;
         if (password != confirmPassword) {
             return res.status(400).json({error: "Passwords don't match"});
         }
@@ -21,6 +22,9 @@ router.post("/signup", async (req: Request, res: Response) => {
         if (user.length !== 0) {
             return res.status(400).json({error: "Username already exists"});
         }
+
+        const randomInt = getRandomInt(76); //The api used to generate the random image has a limit of 77 types.
+        let profile_picture_url = `https://xsgames.co/randomusers/assets/avatars/${gender.toLowerCase()}/${randomInt}.jpg`;
 
         //Check if the data is properly formatted
         if (!isString(fullName) || !isString(username) || !isString(password) || !isString(confirmPassword)) {
@@ -33,7 +37,7 @@ router.post("/signup", async (req: Request, res: Response) => {
 
         //Create the new user object
         const newUser = await sql<publicUserDetailsProps[]>`INSERT INTO users (username, fullname, password, profile_picture)
-        VALUES (${username}, ${fullName}, ${hashedPassword}, NULL) RETURNING id, username, fullname, profile_picture`;
+        VALUES (${username}, ${fullName}, ${hashedPassword}, ${profile_picture_url}) RETURNING id, username, fullname, profile_picture`;
 
 
         //Generate a jwt session, upload the object to mongo db
@@ -64,6 +68,7 @@ router.post("/login", async (req: Request, res: Response) => {
         const queryResult = await sql<privateUserDetailsProps[]>`SELECT id, username, password FROM users WHERE username = ${username}`;
 
         const user = queryResult[0];
+
         //Check if the password is correct
         const isPasswordCorrect = await bcrypt.compare(password, user.password || "");
 

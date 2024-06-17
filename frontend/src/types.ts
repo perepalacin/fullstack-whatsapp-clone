@@ -14,9 +14,9 @@ export interface privateUserDetailsProps extends publicUserDetailsProps {
 //Type that defines the interface of the chats the user has ongoing with different users
 //Its the type that holds all the information of the chats, as well as its msgs.
 export interface OnGoingChatsProps {
-    chat_id: String;
-    chat_name: String;
-    chat_picture: String;
+    chat_id: string;
+    chat_name: string;
+    chat_picture: string;
     // chat_type: String;
     // last_message_text: String;
     // last_message_timestamp: String;
@@ -26,9 +26,9 @@ export interface OnGoingChatsProps {
 }
 
 export interface ChatMessages {
-    id: String;
-    text: String;
-    sender_id: String;
-    chat_id: String;
-    created_at: String;
+    id: string;
+    text: string;
+    sender_id: string;
+    chat_id: string;
+    created_at: string;
 }

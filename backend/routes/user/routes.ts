@@ -5,6 +5,7 @@ import { OnGoingChatsProps, publicUserDetailsProps } from "../../../frontend/src
 
 const router = express.Router();
 
+//API call to get all users except self
 router.get("/", middleWare, async (_req: Request, res: Response) => {
     try {
         const loggedInUser = res.locals.userId;
