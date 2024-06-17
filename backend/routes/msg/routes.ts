@@ -131,7 +131,7 @@ router.post("/send/:chatId/", middleWare, async (req: Request, res: Response) =>
         //TODO:
         if (chat) {
             const newMessage = await sql`INSERT INTO messages (text, sender_id, chat_id)
-            VALUES (${message}, ${senderId}, ${chatId}) RETURNING text, sender_id, chat_id;`;
+            VALUES (${message}, ${senderId}, ${chatId}) RETURNING text, sender_id, chat_id, created_at;`;
             return res.status(200).json(newMessage);
         } else {
             return res.status(404).json({error: "Chat id not found"});

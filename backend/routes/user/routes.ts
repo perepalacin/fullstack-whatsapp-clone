@@ -81,10 +81,6 @@ router.get("/chats", middleWare, async (_req: Request, res: Response) => {
         ORDER BY
             c.id`;
 
-        console.log(data);
-        data.forEach((item) => {
-            console.log(item.participants);
-        })
         const chats: OnGoingChatsProps[] = [];
         data.forEach((item) => {
             const newChat: OnGoingChatsProps = {

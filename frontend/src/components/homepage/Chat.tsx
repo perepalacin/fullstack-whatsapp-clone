@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react';
 import { ChatMessages } from '../../types';
 
 const Chat = () => {
-  const { selectedChat } = useChatsContext();
+  const { selectedChat, onGoingChats } = useChatsContext();
   const { authUser } = useAuthContext();
-  const { chatMessages, isLoading } = useFetchChatMsgs();
+  const { isLoading } = useFetchChatMsgs();
 
   const [messages, setMessages] = useState<ChatMessages[]>([]);
 
@@ -18,12 +18,14 @@ const Chat = () => {
       return;
     }
 
-    const selectedMessages = chatMessages.find((item) => item.chat.chat_id === selectedChat.chat_id);
-
-    if (selectedMessages) {
-      setMessages(selectedMessages.chat.messages);
+    if (onGoingChats) {
+      const selectedMessages = onGoingChats.find((item) => item.chat_id === selectedChat);
+      if (selectedMessages) {
+        setMessages(selectedMessages.messages);
+      }
     }
-  }, [selectedChat, chatMessages]); // Adding chatMessages as a dependency ensures updates are captured
+
+  }, [selectedChat, onGoingChats]); // Adding chatMessages as a dependency ensures updates are captured
 
   if (!authUser) {
     // TODO: Send to home page!
@@ -55,7 +57,7 @@ const Chat = () => {
           }
           return (
             <div className='w-full flex-col day-bubble' key={index}>
-              {isDateChange ? <span>{lastDate.getDate() + "/" + lastDate.getMonth() + "/" + lastDate.getFullYear()}</span> : <></>}
+              {isDateChange ? <span>{lastDate.toLocaleDateString()}</span> : <></>}
               <div className='flex-row w-full' style={{ justifyContent: isOwnMsg ? "end" : "start" }}>
                 <div className='chat-bubble' style={{ backgroundColor: isOwnMsg ? '#005C4B' : '#202C33' }}>
                   <p>{item.text}</p>

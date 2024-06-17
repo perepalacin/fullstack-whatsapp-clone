@@ -2,7 +2,6 @@ import { Search } from 'lucide-react';
 import { useChatsContext } from '../../context/ChatsContext';
 import { OnGoingChatsProps } from '../../types';
 import useFetchOnGoingChats from '../../hooks/useFetchOnGoingChats';
-import { useEffect } from 'react';
 
 const ConversationsBar = () => {
 	
@@ -11,15 +10,7 @@ const ConversationsBar = () => {
     const {selectedChat, setSelectedChat, onGoingChats} = useChatsContext();
 
     const handleSelectChat = (item: OnGoingChatsProps) => {
-        console.log(item);
-        setSelectedChat({
-            chat_id: item.chat_id,
-            chat_name: item.chat_name,
-            // chat_type: item.chat_type,
-            chat_picture: item.chat_picture,
-            participants: item.participants,
-            messages: item.messages,
-        });
+        setSelectedChat(item.chat_id);
     };
 
     if (!onGoingChats) {
@@ -49,7 +40,7 @@ const ConversationsBar = () => {
                 }
                 //TODO: Render hour or day depending if its today or no
                 return (
-                    <li key={index} onClick={()=> {handleSelectChat(item)}} style={{backgroundColor: selectedChat?.chat_id === item.chat_id ? '#2A3942' : ''}}>
+                    <li key={index} onClick={()=> {handleSelectChat(item)}} style={{backgroundColor: selectedChat === item.chat_id ? '#2A3942' : ''}}>
                         <div className='flex-row' style={{alignItems: 'center', gap: '0.5rem'}}>
                             <img  className="profile-picture-bubble " src={item.participants[0]?.profile_picture || "https://xsgames.co/randomusers/assets/avatars/male/36.jpg"} alt="User's Picture" />
                             <div className='flex-col' style={{gap: '0.5rem'}}>
