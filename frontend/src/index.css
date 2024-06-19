@@ -82,6 +82,7 @@
     --border-hover-color: #202C33; 
     --chat-bg: #0B141A;
     --selected-chat-color: #2A3942;
+    --whatsapp-green: #00a884;
     min-height: 100vh;
     overflow-x: hidden;
     font-family: 'Roboto', sans-serif;
@@ -106,9 +107,14 @@ p {
     margin: 0;
 }
 
+a, a:hover, a:visited, a:active {
+    color: inherit;
+    text-decoration: none;
+   }
+    
 ul {
     list-style-type: none;
-    margin: 0;
+    margin: 0; 
     padding: 0;
     }
     
@@ -120,11 +126,13 @@ ul {
         justify-content: start;
         align-items: start;
         min-height: 100vh;
+        overflow: hidden;
     }
     
     nav {
         border-right: 1px solid --border-hover-color;
-        width: 45%;
+        min-width: 600px;
+        max-width: 600px;
         min-height: 100vh;
         background-color: var(--bg);
         display: flex;
@@ -160,6 +168,7 @@ ul {
 
 .h-full {
     min-height: 100vh;
+    max-height: 100vh;
 }
 
 /* GENERAL TAILWINDLIKE CLASSES */
@@ -221,17 +230,32 @@ textarea:focus, input:focus{
     outline: none;
 }
 
+.list-banner-text {
+    color: var(--secondary);
+    font-size: 0.9rem;
+    padding: 0.5rem;
+}
+
 .chats-list {
     display: flex;
     flex-direction: column;
     gap: 0;
+    overflow-y: scroll;
+    padding-bottom: 14rem;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
+.chat-list::-webkit-scrollbar {
+    display: none;
+}
+  
 .chats-list li {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    transition: transform 0.3s ease;
     padding: 0.5rem; /* Should be the same as in the search bar class */ 
     border-top: 1px solid var(--border-hover-color);
 }
@@ -260,6 +284,15 @@ textarea:focus, input:focus{
     font-size: 0.8rem;
 }
 
+.logout-button {
+    color: var(--whatsapp-green);
+    background-color: rgba(0, 0, 0, 0) !important;
+    padding: 0px;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+}
+
 /* SIDEBAR CLASSES */
 
 
@@ -282,27 +315,65 @@ textarea:focus, input:focus{
     visibility: visible;
 }
 
+.logout-button .hover-box {
+    visibility: hidden;
+}
+
+.logout-button:hover .hover-box {
+    visibility: visible;
+}
+
 /* HOVERBOX */
 
 /* CHAT SECTION */
+
+.separator {
+    min-width: 1px;
+    max-width: 1px;
+    position: absolute;
+    height: 100vh;
+    background-color: #2F3B43;
+    top: 0;
+    left: 600px;
+    z-index: 100;
+}
 
 .chat-section {
     justify-content: space-between;
     flex-grow: 1; 
     background-image: url(/background-image.png);
+    padding-bottom: 5rem;
     background-repeat: repeat;
     background-size: fill;
     width: 100%; 
-    height: 100%;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.chat-section::-webkit-scrollbar {
+    display: none;
 }
 
 .message-bar {
+    height: 65px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
     padding: 0.5rem; /* Should be the same as in the chats-list li class */
     width: 100%;
     background-color: var(--border-hover-color);
     gap: 1rem;
     align-items: center;
-    padding: 0.75rem 1rem 0.75rem 1rem;
+}
+
+.message-bar div {
+    min-width: 600px;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: var(--whatsapp-green);
 }
 
 .message-bar input {
@@ -379,3 +450,134 @@ align-items: center;
 }
 
 /* CONTACT LIST SECTION */
+
+/* ANIMATIONS */
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Apply the spin animation to the widget */
+.spin {
+    animation: spin 2s linear infinite;
+}
+
+/* ANIMATIONS */
+
+/* LOGIN AND SIGNIN PAGES */
+
+.auth-screen {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100vh;
+    align-items: center;
+    text-align: center;
+    background-color: #fcf5eb;
+    color: black;
+}
+
+.auth-screen form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #EAE6DF;
+    padding: 4rem 3rem;
+    border-radius: 2rem;
+    border: 1px solid #B0AFA9;
+    color: black;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); 
+}
+
+.auth-screen h1 {
+    color: var(--whatsapp-green);
+    font-size: 4rem;
+    margin: 0;
+    padding: 0;
+}
+
+.auth-screen h2 {
+    font-weight: 400;
+    font-weight: 600;
+}
+
+
+.auth-screen form section {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.auth-screen form section label {
+    width: 12rem;
+}
+
+.auth-screen form section input {
+    border: none;
+    background-color: white;
+    padding: 0.75rem; 
+    width: 60%;
+    border-radius: 0.35rem;
+    position: relative;
+    color: black;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.auth-screen form section input::placeholder {
+    color: var(--tertiary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.auth-error {
+    color: red;
+}
+
+.auth-button {
+    background-color: var(--whatsapp-green);
+    width: 12rem;
+    border-radius: 20rem;
+    color: black;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem
+}
+
+.auth-button:disabled {
+    background-color: rgba(0, 168, 132, 0.5);;
+}
+
+.change-auth-page-button {
+    color: var(--whatsapp-green);
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.5rem;
+    text-decoration: underline;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 1rem;
+}
+
+.gender-select {
+    width: 8rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+
+  
+
+/* LOGIN AND SIGNIN PAGES */

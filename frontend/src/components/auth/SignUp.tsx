@@ -6,6 +6,7 @@ import {z} from "zod";
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuthContext } from '../../context/AuthContext';
+import { ArrowRight, LoaderCircle } from 'lucide-react';
 
 
 const formSchema = z.object({
@@ -76,50 +77,57 @@ const SignUp = () => {
 
 
   return (
-    <main>
+    <main className='auth-screen'>
     <ToastContainer/>
     <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Sign up</h1>
+      <img src='/logo.png' width={200}/>
+      <h1>Sign up for free now!</h1>
+        <h2>Start chatting with your friends</h2>
         <section>
             <label>
                     Full name:
             </label>
             <input disabled={isSubmitting} placeholder='Giorgio Bambino' {...register('fullName')}/>
-            {errors.fullName?.message && <p>{errors.fullName?.message}</p>}
         </section>
+            {errors.fullName?.message && <p className= "auth-error">{errors.fullName?.message}</p>}
         <section>
             <label>
                     Username:
             </label>
             <input disabled={isSubmitting} placeholder='GiorgioBambino' {...register('username')}/>
-            {errors.username?.message && <p>{errors.username?.message}</p>}
         </section>
+            {errors.username?.message && <p className= "auth-error">{errors.username?.message}</p>}
         <section>
             <label>
-                    password:
+                    Password:
             </label>
             <input disabled={isSubmitting} type='password' {...register('password')}/>
-            {errors.password?.message && <p>{errors.password?.message}</p>}
         </section>
+            {errors.password?.message && <p className= "auth-error">{errors.password?.message}</p>}
         <section>
             <label>
                     Repeat password:
             </label>
             <input disabled={isSubmitting} type='password' {...register('confirmPassword')}/>
-            {errors.confirmPassword?.message && <p>{errors.confirmPassword?.message}</p>}
         </section>
-        <select disabled={isSubmitting} {...register('gender')}>
+            {errors.confirmPassword?.message && <p className= "auth-error">{errors.confirmPassword?.message}</p>}
+        <select disabled={isSubmitting} {...register('gender')} className='gender-select'>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
         </select>
-        <button disabled={isSubmitting} type='submit'>Sign up</button>
+        <button disabled={isSubmitting} type='submit' className='auth-button'>
+          <p>Sign up</p>
+          {isSubmitting ? <LoaderCircle size={20} className='spin'/> : <ArrowRight size={20}/>}
+        </button>
     </form>
-    <p>Already have an account?</p>
-    <a href='/login'>
-      <button type='button'>
-        Log in
-      </button>
-    </a>
+    <div className='flex-row' style={{alignItems: 'center', gap: '0.5rem'}}>
+      <p>Already have an account?</p>
+      <a href='/login'>
+        <button type='button' className='change-auth-page-button'>
+          Log in
+        </button>
+      </a>
+    </div>
     </main>
   )
 }

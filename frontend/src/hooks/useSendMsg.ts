@@ -21,9 +21,7 @@ const useSendMsg = () => {
 
             // This section controls new dm (first time you msg someone)
             if (selectedChat.startsWith("new-")) {
-                console.log("New chat!")
                 const receiverId = selectedChat.slice(4).trim();
-                console.log(receiverId);
                 const res = await fetch(`/api/msg/newdm/${receiverId}`, {
                     method: "POST",
                     headers: {
@@ -42,8 +40,7 @@ const useSendMsg = () => {
                 if (onGoingChats) {
                     const newChatArray = [...onGoingChats];
                     newChatArray.filter((chat) => {chat.chat_id.startsWith("new-")});
-                    console.log(newChatArray);
-                    newChatArray.push(data.chatData);
+                    newChatArray.unshift(data.chatData);
                     setOnGoingChats(newChatArray);
                 } else {
                     setOnGoingChats(data.chatData);
@@ -66,12 +63,15 @@ const useSendMsg = () => {
                 }
                 if (onGoingChats) {
                     const newChatArray = [...onGoingChats];
-    
-                    newChatArray.forEach((item) => {
-                        if (item.chat_id === selectedChat) {
-                            item.messages.push(data[0]);
+                    //Turn this into a for, break when found the chat id, shift the index to the front! 
+                    for (let i = 0; i < newChatArray.length; i++) {
+                        if (newChatArray[i].chat_id === selectedChat) {
+                            newChatArray[i].messages.push(data[0]);
+                            newChatArray.unshift(newChatArray.splice(i, 1)[0]);
+                            break;
                         }
-                    });
+                    }
+
                     setOnGoingChats(newChatArray);
                 }
             }

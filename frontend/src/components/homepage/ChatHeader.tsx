@@ -19,7 +19,7 @@ const ChatHeader = () => {
 
 
   return (
-    <section className="profile-banner w-full flex-row">
+    <section className="profile-banner w-full flex-row" style={{paddingLeft: '1rem'}}>
       <div className="flex-row" style={{gap: '1rem', alignItems: 'center', padding: 0}}>
         {/* How can i fix this error? */}
     <img className="profile-picture-bubble " src={activeChat?.chat_picture || "https://www.shutterstock.com/image-vector/gray-avatar-icon-design-photo-600nw-1274338147.jpg"} alt="User's Picture" />

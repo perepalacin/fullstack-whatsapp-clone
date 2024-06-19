@@ -3,6 +3,7 @@ import useFetchUserDetails from "../../hooks/useFetchUserDetails"
 import HoverBox from "../extras/HoverBox";
 import { useAuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import LogoutButton from "../auth/LogoutButton";
 
 interface ProfileBannerProps {
     handleTabChange: () => void;
@@ -34,7 +35,7 @@ const ProfileBanner = (props: ProfileBannerProps) => {
                 <UsersRound />
                 <HoverBox prompt={"Create group"} />
             </button>
-
+            <LogoutButton />
         </div>
     </section> 
     )

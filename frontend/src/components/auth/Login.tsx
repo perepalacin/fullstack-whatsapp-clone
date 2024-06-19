@@ -7,6 +7,7 @@ import {z} from "zod";
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuthContext } from '../../context/AuthContext';
 import { notifyError } from '../Toasts';
+import { ArrowRight, LoaderCircle } from 'lucide-react';
 
 
 const formSchema = z.object({
@@ -58,32 +59,39 @@ const Login = () => {
 
 
   return (
-    <main>
+    <main className='auth-screen'>
     <ToastContainer/>
     <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Log in</h1>
+        <img src='/logo.png' width={200}/>
+        <h1>Welcome back!</h1>
+        <h2>Please log into your account</h2>
         <section>
             <label>
                     Username:
             </label>
             <input disabled={isSubmitting} placeholder='GiorgioBambino' {...register('username')}/>
-            {errors.username?.message && <p>{errors.username?.message}</p>}
         </section>
+            {errors.username?.message && <p className='auth-error'>{errors.username?.message}</p>}
         <section>
             <label>
                     password:
             </label>
             <input disabled={isSubmitting} type='password' {...register('password')}/>
-            {errors.password?.message && <p>{errors.password?.message}</p>}
         </section>
-        <button disabled={isSubmitting} type='submit'>Log in</button>
+            {errors.password?.message && <p className='auth-error'>{errors.password?.message}</p>}
+        <button disabled={isSubmitting} type='submit' className='auth-button'>
+          <p>Log in</p>
+          {isSubmitting ? <LoaderCircle size={20} className='spin'/> : <ArrowRight size={20} />}
+        </button>
     </form>
+    <div className='flex-row' style={{alignItems: 'center', gap: '0.5rem'}}>
     <p>You don't have an account?</p>
     <a href='/signup'>
-        <button type='button'>
+        <button type='button'className='change-auth-page-button'>
             Sign up
         </button>
     </a>
+    </div>
     </main>
   )
 }

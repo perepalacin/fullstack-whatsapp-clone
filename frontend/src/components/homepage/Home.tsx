@@ -1,4 +1,3 @@
-import LogoutButton from '../auth/LogoutButton';
 import ConversationsBar from './ConversationsBar';
 import ProfileBanner from './ProfileBanner';
 import ChatHeader from './ChatHeader';
@@ -6,6 +5,7 @@ import { ChatsContextProvider } from '../../context/ChatsContext';
 import Chat from './Chat';
 import { useState } from 'react';
 import ContactList from './ContactList';
+import Separator from './Separator';
 
 const Home = () => {
   const [tab, setTab] = useState(true); //True == OnGoingChats tab; False == Contacts list! STATE THAT HANDLES WHICH SIDEBAR IS REDNERED -> ONGOING CHATS OR CONTACT LIST
@@ -17,15 +17,15 @@ const Home = () => {
   return (
     <ChatsContextProvider>
       <div className='main-root'>
+        <Separator />
         <nav className='nav-bar'>
           {tab ?
-            <div className='w-full'>
+            <div className='w-full h-full'>
               <ProfileBanner handleTabChange={handleTabChange} />
               <ConversationsBar />
-              <LogoutButton />
             </div>
             :
-            <div className='w-full'>
+            <div className='w-full h-full'>
               <ContactList handleTabChange={handleTabChange}/>
             </div>
           }
@@ -37,6 +37,7 @@ const Home = () => {
         </div>
       </div>
     </ChatsContextProvider>
+  
   )
 }
 

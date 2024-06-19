@@ -24,13 +24,16 @@ const ConversationsBar = () => {
         )
     }
 
+
+
   return (
     <div className='w-full'>
         <section className='search-bar w-full'>
             <input placeholder='Search' className='w-full'/>
             <Search style={{position: 'absolute', left: '1rem', paddingTop: '0.55rem'}} size={20} />
         </section>
-        <ul className='chats-list w-full'>
+        <p className='list-banner-text'>Your chats:</p>
+        <ul className='chats-list w-full h-full'>
             {onGoingChats.map((item) => {
                 if (item.messages.length === 0) {
                     return null;
@@ -73,7 +76,7 @@ const ConversationsBar = () => {
                 )
             })}
         </ul>
-    </div>
+     </div>
 )
 }
 

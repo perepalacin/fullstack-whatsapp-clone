@@ -77,11 +77,11 @@ const ContactList = (props: ContactListProps) => {
         <input placeholder='Search' className='w-full' value={searchInput} onChange={(e) => setSearchInput(e.target.value)} maxLength={60}/>
         <Search style={{ position: 'absolute', left: '1rem', paddingTop: '0.55rem' }} size={20} />
       </section>
-      <ul className='chats-list w-full'>
+      <ul className='chats-list w-full h-full'>
         {filteredContacts.length === 0 ?
         <p className='w-full no-results'>No search results for: {searchInput}</p>
       :
-      <></>}
+      <p className='list-banner-text'>Your contacts:</p>}
             {filteredContacts.map((user) => {
                 return (
                     <li key={user.id} onClick={()=> {handleContactClick(user)}} >

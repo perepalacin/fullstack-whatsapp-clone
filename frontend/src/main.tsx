@@ -6,7 +6,6 @@ import App from './App.tsx'
 
 import './index.css'
 import { AuthContextProvider } from './context/AuthContext.tsx'
-import { ChatsContextProvider } from './context/ChatsContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

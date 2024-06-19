@@ -65,7 +65,15 @@ router.post("/login", async (req: Request, res: Response) => {
         const{username, password} = req.body;
         //Look if the user exists
 
+        if (!username || !password) {
+            return res.status(400).json({error: "Invalid username or password"});
+        }
+
         const queryResult = await sql<privateUserDetailsProps[]>`SELECT id, username, password FROM users WHERE username = ${username}`;
+
+        if (queryResult.length === 0) {
+            return res.status(400).json({error: "Invalid username or password"});
+        }
 
         const user = queryResult[0];
 
