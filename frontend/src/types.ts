@@ -17,10 +17,7 @@ export interface OnGoingChatsProps {
     chat_id: string;
     chat_name: string;
     chat_picture: string;
-    // chat_type: String;
-    // last_message_text: String;
-    // last_message_timestamp: String;
-    // sender_fullname: String;
+    chat_type: string;
     participants: publicUserDetailsProps[];
     messages: ChatMessages[];
 }

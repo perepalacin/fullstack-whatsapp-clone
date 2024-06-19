@@ -14,12 +14,11 @@ const useFetchChatMsgs = () => {
             }
 
         for (let i = 0; i < onGoingChats.length; i++) {
-            if (onGoingChats[i].chat_id === selectedChat && onGoingChats[i].messages.length > 1) {
+            if (onGoingChats[i].chat_id === selectedChat && onGoingChats[i].messages.length > 1 || onGoingChats[i].chat_id.startsWith("new-")) {
                 return;
             }
         }
 
-        console.log("Fetch!");
             //TODO: Check somehow if the messages have already been fetched. 
             //even better,send the actual length of the array in the params of the api, fetch from the length + 50.
                 setIsLoading(true);

@@ -47,6 +47,7 @@ const Chat = () => {
           let isOwnMsg = false;
           const MessageDate = new Date(item.created_at.replace(' ', 'T'));
           let isDateChange = false;
+          let today = new Date();
 
           if (MessageDate.getDate() !== lastDate.getDate()) {
             lastDate = MessageDate;
@@ -57,7 +58,7 @@ const Chat = () => {
           }
           return (
             <div className='w-full flex-col day-bubble' key={index}>
-              {isDateChange ? <span>{lastDate.toLocaleDateString()}</span> : <></>}
+              {isDateChange ? <span>{lastDate.toLocaleDateString() === today.toLocaleDateString() ? "TODAY" : lastDate.toLocaleDateString()}</span> : <></>}
               <div className='flex-row w-full' style={{ justifyContent: isOwnMsg ? "end" : "start" }}>
                 <div className='chat-bubble' style={{ backgroundColor: isOwnMsg ? '#005C4B' : '#202C33' }}>
                   <p>{item.text}</p>

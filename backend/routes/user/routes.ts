@@ -14,7 +14,7 @@ router.get("/", middleWare, async (_req: Request, res: Response) => {
             return res.status(400).json({error: "Unauthorized request"});
         }
 
-        const allUsersExceptSelf = await sql<publicUserDetailsProps[]>`SELECT id, fullname, username, profile_picture FROM users WHERE id != ${loggedInUser}`;
+        const allUsersExceptSelf = await sql<publicUserDetailsProps[]>`SELECT id, fullname, username, profile_picture FROM users WHERE id != ${loggedInUser} ORDER BY fullname`;
 
         return res.status(200).json(allUsersExceptSelf);
 
@@ -45,7 +45,7 @@ router.get("/chats", middleWare, async (_req: Request, res: Response) => {
                 SELECT
                     jsonb_agg(
                         jsonb_build_object(
-                            'user_id', u2.id,
+                            'id', u2.id,
                             'username', u2.username,
                             'fullname', u2.fullname,
                             'profile_picture', u2.profile_picture
@@ -80,7 +80,7 @@ router.get("/chats", middleWare, async (_req: Request, res: Response) => {
         WHERE
             ctu2.user_id = ${loggedInUser}
         ORDER BY
-            c.id`;
+            last_message_timestamp DESC`;
 
         const chats: OnGoingChatsProps[] = [];
         data.forEach((item) => {
@@ -88,6 +88,7 @@ router.get("/chats", middleWare, async (_req: Request, res: Response) => {
                 chat_id: item.chat_id,
                 chat_name: item.chat_type === 'private' ? item.participants[0].fullname : item.chat_name,
                 chat_picture: item.chat_type === 'private' ? item.participants[0].profile_picture : item.chat_picture,
+                chat_type: item.chat_type,
                 participants: item.participants,
                 messages: [
                     {

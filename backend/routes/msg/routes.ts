@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import middleWare from "../../utils/middleware";
 import sql from "../../utils/connectToDB";
-import { publicUserDetailsProps } from "../../../frontend/src/types";
+import { OnGoingChatsProps, publicUserDetailsProps } from "../../../frontend/src/types";
 import uuid4 from "uuid4";
 
 const router = express.Router();
@@ -52,6 +52,7 @@ router.get("/chat/:chatId", middleWare, async (req: Request, res: Response) => {
 
 router.post("/newdm/:receiverId", middleWare, async (req: Request, res: Response) => {
     try {
+
         //Get the params of the request
         const {message} = req.body;
         const {receiverId} = req.params;
@@ -86,15 +87,37 @@ router.post("/newdm/:receiverId", middleWare, async (req: Request, res: Response
         }
 
         const uuid = uuid4();
-
+        
         await sql`INSERT INTO chats (id, name, picture, type)
         VALUES (${uuid}, ${''}, ${''}, 'private');`;
         await sql`INSERT INTO chats_to_users (user_id, chat_id)
         VALUES (${senderId}, ${uuid}), (${receiverId}, ${uuid});`;
         const messageData = await sql`INSERT INTO messages (text, sender_id, chat_id)
-        VALUES (${message}, ${senderId}, ${uuid}) RETURNING text, sender_id, chat_id;`;
+        VALUES (${message}, ${senderId}, ${uuid}) RETURNING id, text, sender_id, chat_id, created_at;`;
+        
+        // Convert this response into a OnGoingChats object to return it and append it to the context state!
 
-        return res.status(200).json({messageData});
+        const chatData: OnGoingChatsProps = {
+            chat_id: uuid,
+            chat_name: usersData[0].fullname,
+            chat_picture: usersData[0].profile_picture,
+            chat_type: "private",
+            participants: [{
+                id: usersData[0].id,
+                fullname: usersData[0].fullname,
+                username: usersData[0].username,
+                profile_picture: usersData[0].profile_picture
+            }],
+            messages: [{
+                id: messageData[0].id,
+                text: messageData[0].text,
+                sender_id: messageData[0].sender_id,
+                chat_id: messageData[0].chat_id,
+                created_at: messageData[0].created_at
+            }]
+        }
+
+        return res.status(200).json({chatData});
 
     } catch (error) {
         return res.status(500).json({error: "Internal server error"});

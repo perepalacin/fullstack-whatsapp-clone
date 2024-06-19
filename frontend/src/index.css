@@ -357,3 +357,25 @@ align-items: center;
 }
 
 /* CHAT SECTION */
+
+/* CONTACT LIST SECITON */
+
+.contact-list-banner {
+    padding: 3rem 0rem 1rem 1rem;
+    justify-content: start; 
+    align-items: center;
+    gap: 2rem;
+}
+
+.no-results {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    text-align: center;
+    margin-top: 2rem;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* CONTACT LIST SECTION */
