@@ -81,7 +81,7 @@ const ContactList = (props: ContactListProps) => {
         {filteredContacts.length === 0 ?
         <p className='w-full no-results'>No search results for: {searchInput}</p>
       :
-      <p className='list-banner-text'>Your contacts:</p>}
+      <></>}
             {filteredContacts.map((user) => {
                 return (
                     <li key={user.id} onClick={()=> {handleContactClick(user)}} >

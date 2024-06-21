@@ -34,7 +34,11 @@ const Chat = () => {
 
   if (!selectedChat) {
     // TODO: ADD the landing banner here!
-    return <p>Landing Banner</p>;
+    return (
+      <section className='landing-banner flex-col' style={{height: '100vh'}}>
+
+      </section>
+    );
   }
 
   // We create a variable to compare and store the dates of all the messages to render the day they were sent in

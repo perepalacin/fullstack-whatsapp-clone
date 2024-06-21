@@ -2,6 +2,7 @@ import { Search } from 'lucide-react';
 import { useChatsContext } from '../../context/ChatsContext';
 import { OnGoingChatsProps } from '../../types';
 import useFetchOnGoingChats from '../../hooks/useFetchOnGoingChats';
+import { useEffect, useState } from 'react';
 
 const ConversationsBar = () => {
 	
@@ -9,32 +10,54 @@ const ConversationsBar = () => {
 
     const {selectedChat, setSelectedChat, onGoingChats} = useChatsContext();
 
+    const [filteredChats, setFilteredChats] = useState(onGoingChats);
+    const [searchInput, setSearchInput] = useState("");
+  
+    //USE EFFECT THAT HANDLES THE UPDATE OF THE SEARCH INPUT
+    useEffect(() => {
+      if (searchInput === "") {
+        setFilteredChats(onGoingChats);
+      } else {
+        if (onGoingChats) {
+            const filteredItems = onGoingChats.filter((chat) => chat.chat_name.toLocaleLowerCase().includes(searchInput.toLocaleLowerCase()));
+            setFilteredChats(filteredItems);
+        }
+      }
+    }, [searchInput, onGoingChats]);
+
     const handleSelectChat = (item: OnGoingChatsProps) => {
-        console.log("Chat id" + item.chat_id);
-        console.log(item.participants);
         setSelectedChat(item.chat_id);
     };
 
-    if (!onGoingChats) {
+    if (!filteredChats) {
         // TODO: Style this return
-        return (
-            <p>
+        if (isLoading) {
+            return (
+                //TODO: How to do skeletons!?
+                <p>Loading!</p>
+            )
+        } else {
+            return (
+                <p>
                 No active conversations
             </p>
         )
     }
-
+    }
 
 
   return (
     <div className='w-full'>
         <section className='search-bar w-full'>
-            <input placeholder='Search' className='w-full'/>
+            <input placeholder='Search' className='w-full' value={searchInput} onChange={(e) => {setSearchInput(e.target.value)}}/>
             <Search style={{position: 'absolute', left: '1rem', paddingTop: '0.55rem'}} size={20} />
         </section>
-        <p className='list-banner-text'>Your chats:</p>
+        {filteredChats.length === 0 ?
+        <p className='w-full no-results'>No search results for: {searchInput}</p>
+      :
+      <></>}
         <ul className='chats-list w-full h-full'>
-            {onGoingChats.map((item) => {
+            {filteredChats.map((item) => {
                 if (item.messages.length === 0) {
                     return null;
                 }

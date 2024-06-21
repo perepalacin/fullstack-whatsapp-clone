@@ -83,6 +83,7 @@
     --chat-bg: #0B141A;
     --selected-chat-color: #2A3942;
     --whatsapp-green: #00a884;
+    --landing-banner-bg: #222E35;
     min-height: 100vh;
     overflow-x: hidden;
     font-family: 'Roboto', sans-serif;
@@ -327,6 +328,10 @@ textarea:focus, input:focus{
 
 /* CHAT SECTION */
 
+.landing-banner {
+    background-color: var(--landing-banner-bg);
+}
+
 .separator {
     min-width: 1px;
     max-width: 1px;
@@ -335,7 +340,7 @@ textarea:focus, input:focus{
     background-color: #2F3B43;
     top: 0;
     left: 600px;
-    z-index: 100;
+    z-index: 40;
 }
 
 .chat-section {
@@ -576,8 +581,6 @@ align-items: center;
     padding: 1rem;
     border-radius: 0.5rem;
 }
-
-
   
 
 /* LOGIN AND SIGNIN PAGES */

@@ -17,6 +17,12 @@ const ChatHeader = () => {
     }
   }, [selectedChat])
 
+  if (!selectedChat) {
+    return (
+      <section className="landing-banner flex-col" style={{height: '100vh'}}>
+      </section>
+    )
+  }
 
   return (
     <section className="profile-banner w-full flex-row" style={{paddingLeft: '1rem'}}>
