@@ -9,7 +9,6 @@ import Separator from './Separator';
 
 const Home = () => {
   const [tab, setTab] = useState(true); //True == OnGoingChats tab; False == Contacts list! STATE THAT HANDLES WHICH SIDEBAR IS REDNERED -> ONGOING CHATS OR CONTACT LIST
-
   const handleTabChange = () => {
     setTab(prevTab => !prevTab); // FUNCTION THAT CHANGES THE STATE UPDATE!
   }

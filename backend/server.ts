@@ -2,13 +2,13 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 
+import { app, server } from './socket/socket';
 import authRouter from './routes/auth/routes';
 import messagingRouter from './routes/msg/routes';
 import userRoutes from './routes/user/routes';
 
 dotenv.config();
 
-const app = express();
 
 const PORT = process.env.PORT || 3000;
 
@@ -26,6 +26,6 @@ app.use('/api/auth', authRouter);
 app.use('/api/msg', messagingRouter);
 app.use('/api/users', userRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 });

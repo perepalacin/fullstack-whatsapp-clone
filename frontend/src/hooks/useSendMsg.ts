@@ -49,7 +49,6 @@ const useSendMsg = () => {
                 
                 //This part manages sending someone a message you have already texted in the past.
             } else {
-                console.log("working!!")
                 const res = await fetch(`/api/msg/send/${selectedChat}`, {
                     method: "POST",
                     headers: {

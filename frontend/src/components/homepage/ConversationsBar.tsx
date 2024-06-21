@@ -3,6 +3,8 @@ import { useChatsContext } from '../../context/ChatsContext';
 import { OnGoingChatsProps } from '../../types';
 import useFetchOnGoingChats from '../../hooks/useFetchOnGoingChats';
 import { useEffect, useState } from 'react';
+import useListenToNewMsgs from '../../hooks/useListenToNewMsgs';
+import LoadingPage from '../LoadingPage';
 
 const ConversationsBar = () => {
 	
@@ -12,6 +14,8 @@ const ConversationsBar = () => {
 
     const [filteredChats, setFilteredChats] = useState(onGoingChats);
     const [searchInput, setSearchInput] = useState("");
+
+    useListenToNewMsgs();
   
     //USE EFFECT THAT HANDLES THE UPDATE OF THE SEARCH INPUT
     useEffect(() => {
@@ -34,7 +38,7 @@ const ConversationsBar = () => {
         if (isLoading) {
             return (
                 //TODO: How to do skeletons!?
-                <p>Loading!</p>
+                <LoadingPage />
             )
         } else {
             return (
@@ -91,7 +95,8 @@ const ConversationsBar = () => {
                         <p className='msg-date-preview'>
                             { 
                             isToday ? 
-                            lastMessageDate.getHours() + ":" + lastMessageDate.getMinutes() : 
+                            lastMessageDate.getHours() + ":" + lastMessageDate.getMinutes()  
+                            : 
                             lastMessageDate.toLocaleDateString()
                             }
                         </p>

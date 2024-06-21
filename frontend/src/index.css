@@ -405,6 +405,33 @@ textarea:focus, input:focus{
     font-size: 0.9rem;
     color: var(--text-color);
     position: relative;
+    z-index: 0;
+}
+
+.chat-bubble-origin {
+    /* Display triangle on the first message! */
+	content: ' ';
+    z-index: 0;
+	position: absolute;
+	width: 0;
+	height: 0;
+    top: 0px;
+	bottom: auto;
+	border: 20px solid;
+	border-color: lightyellow transparent transparent transparent;
+}
+
+.chat-bubble-not-own {
+	border-color: #202C33 transparent transparent transparent;
+    left: -10px;
+	right: auto;
+    z-index: -10;
+}
+
+.chat-bubble-own {
+	border-color: #005C4B transparent transparent transparent;
+    right: -10px;
+	left: auto;
 }
 
 .msg-time {
