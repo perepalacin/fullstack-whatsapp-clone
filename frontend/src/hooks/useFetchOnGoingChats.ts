@@ -4,7 +4,7 @@ import { useChatsContext } from "../context/ChatsContext";
 
 const useFetchOnGoingChats = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const { setOnGoingChats } = useChatsContext();
+    const { onGoingChats, setOnGoingChats } = useChatsContext();
 
 
 
@@ -33,7 +33,9 @@ const useFetchOnGoingChats = () => {
     }
 
     useEffect(() => {
-        fetchChats();
+        if (!onGoingChats) {
+            fetchChats();
+        }
     }, []);
 
     return {isLoading};

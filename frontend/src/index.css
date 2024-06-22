@@ -241,7 +241,7 @@ textarea:focus, input:focus{
     display: flex;
     flex-direction: column;
     gap: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding-bottom: 14rem;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */

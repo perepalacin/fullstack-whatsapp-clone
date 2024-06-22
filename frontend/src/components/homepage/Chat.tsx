@@ -2,15 +2,17 @@ import { useChatsContext } from '../../context/ChatsContext';
 import { useAuthContext } from '../../context/AuthContext';
 import ChatInput from './ChatInput';
 import useFetchChatMsgs from '../../hooks/useFetchChatMsgs';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import { ChatMessages } from '../../types';
 
 const Chat = () => {
   const { selectedChat, onGoingChats } = useChatsContext();
   const { authUser } = useAuthContext();
-  const { isLoading } = useFetchChatMsgs();
-
+  
   const [messages, setMessages] = useState<ChatMessages[]>([]);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  
+  const { fetchMoreMessages} = useFetchChatMsgs();
 
   useEffect(() => {
     if (!selectedChat) {
@@ -22,10 +24,43 @@ const Chat = () => {
       const selectedMessages = onGoingChats.find((item) => item.chat_id === selectedChat);
       if (selectedMessages) {
         setMessages(selectedMessages.messages);
+          if (chatContainerRef.current && selectedMessages.messages.length <= 20) {
+              chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+            }
       }
     }
 
-  }, [selectedChat, onGoingChats]); // Adding chatMessages as a dependency ensures updates are captured
+    const handleScroll = () => {
+      const container = chatContainerRef.current;
+      if (container && container.scrollTop === 0) {
+        fetchMoreMessages();
+      }
+    };
+
+    const container = chatContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      
+      // Clean up the event listener on component unmount
+      return () => {
+        container.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [selectedChat, onGoingChats]);
+
+  useLayoutEffect(() => {
+    if (onGoingChats) {
+      onGoingChats.forEach((chat) => {
+        if (chat.chat_id === selectedChat) {
+          if (chat.messages.length <= 20 ) {
+            if (chatContainerRef.current) {
+              chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+            }
+          }
+        }
+      })
+    }
+  }, [messages, onGoingChats]);
 
   if (!authUser) {
     // TODO: Send to home page!
@@ -36,23 +71,27 @@ const Chat = () => {
     // TODO: ADD the landing banner here!
     return (
       <section className='landing-banner flex-col' style={{height: '100vh'}}>
-
       </section>
     );
   }
 
-  // We create a variable to compare and store the dates of all the messages to render the day they were sent in
   let lastDate = new Date("2000-01-01");
-
-  //Variable to store the sender id and check if we have to display the name of the sender in group chats or add extra classes ot the bubble
   let lastSender = "";
 
   return (
     <section className='flex-col w-full chat-section'>
-      <div className="flex-col w-full" style={{ marginTop: '2rem', padding: "0rem 4rem", gap: '0.15rem' }}>
-        {messages.map((item) => {
-
-          //Variable used to know if its the first chat bubble sent by this user 
+      <div 
+        ref={chatContainerRef} 
+        className="flex-col w-full chat-container"
+        style={{ 
+          padding: "0rem 4rem", 
+          gap: '0.15rem', 
+          overflowY: 'auto', 
+          maxHeight: '70vh',
+          // scrollBehavior: 'smooth' // Enable smooth scrolling
+        }}
+      >
+        {messages.map((item, index) => {
           let isFirstBubble = false;
           if (item.sender_id !== lastSender) {
             lastSender = item.sender_id;
@@ -71,7 +110,7 @@ const Chat = () => {
             isOwnMsg = true;
           }
           return (
-            <div className='w-full flex-col day-bubble' key={item.id}>
+            <div className='w-full flex-col day-bubble' key={index}>
               {isDateChange ? <span>{lastDate.toLocaleDateString() === today.toLocaleDateString() ? "TODAY" : lastDate.toLocaleDateString()}</span> : <></>}
               <div className='flex-row w-full' style={{ justifyContent: isOwnMsg ? "end" : "start" }}>
                 <div className='chat-bubble' style={{ backgroundColor: isOwnMsg ? '#005C4B' : '#202C33' }}>

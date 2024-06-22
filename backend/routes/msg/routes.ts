@@ -11,12 +11,16 @@ interface participantsProps {
     user_id: string;
 }
 
-router.get("/chat/:chatId", middleWare, async (req: Request, res: Response) => {
+router.get("/chat/:chatId/:offset", middleWare, async (req: Request, res: Response) => {
     try {
-        const {chatId} = req.params;
+        let {chatId, offset} = req.params;
 
-        if (!chatId ) {
+        if (!chatId) {
             return res.status(400).json({error: "Chat id improperly formatted"})
+        }
+
+        if (!offset) {
+            offset = '0'
         }
 
         const userId = res.locals.userId;
@@ -38,12 +42,12 @@ router.get("/chat/:chatId", middleWare, async (req: Request, res: Response) => {
             return res.status(500).json({error: "Unauthorized user"});
         }
 
-        const messages = await sql`SELECT * FROM messages WHERE chat_id = ${chatId} ORDER BY created_at ASC`;
+        const messages = await sql`SELECT * FROM messages WHERE chat_id = ${chatId} ORDER BY created_at DESC LIMIT 20 OFFSET ${Number(offset)}`;
         if (!messages) {
             return res.status(404).json({error: "No messages were found"});
         }
 
-        return res.status(200).json(messages);
+        return res.status(200).json(messages.reverse());
 
     } catch (error) {
         console.log(error);

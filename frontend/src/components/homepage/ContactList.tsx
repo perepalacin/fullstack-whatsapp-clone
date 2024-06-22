@@ -31,10 +31,9 @@ const ContactList = (props: ContactListProps) => {
   }, [searchInput, contacts]);
 
   const handleContactClick = (contact: publicUserDetailsProps) => {
-    console.log(onGoingChats);
     if (onGoingChats) {
       for (let i = 0; i < onGoingChats.length; i++) {
-        if (onGoingChats[i].participants.length === 1 && onGoingChats[i].chat_type === "private") { //Add type!
+        if (onGoingChats[i].participants.length === 1 && onGoingChats[i].chat_type === "private") {
           if (onGoingChats[i].participants[0].id === contact.id) {
             //The chat exists, we select this chat and we filter any "new chat" the user might have created!
             setSelectedChat(onGoingChats[i].chat_id);
