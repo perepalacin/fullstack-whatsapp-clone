@@ -10,9 +10,8 @@ interface ContactListProps {
 }
 
 const ContactList = (props: ContactListProps) => {
-  const { isLoading, contacts } = useFetchContacts();
+  const { contacts } = useFetchContacts();
 
-  const {authUser} = useAuthContext();
 
   const {onGoingChats, setOnGoingChats, setSelectedChat} = useChatsContext();
 

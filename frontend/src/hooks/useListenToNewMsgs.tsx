@@ -39,7 +39,6 @@ const useListenToNewMsgs = () => {
         }
         const notification = new Audio("/whatsapp_notification.mp3");
         notification.play();
-
     });
     //Remove this event once it executes so it doesnt trigger twice
     return () => {

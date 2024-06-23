@@ -4,6 +4,9 @@ import HoverBox from "../extras/HoverBox";
 import { useAuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
+import { useState } from "react";
+import ContactList from "./ContactList";
+import CreateChatDialog from "./CreateChatDialog";
 
 interface ProfileBannerProps {
     handleTabChange: () => void;
@@ -15,12 +18,17 @@ const ProfileBanner = (props: ProfileBannerProps) => {
 
     const {authUser} = useAuthContext();
 
+    const [ createGroupDialog, setCreateGroupDialog ] = useState(false);
+
+    const handleCloseDialog = () => {
+        setCreateGroupDialog(false);
+    }
 
     if (!authUser){
         navigate("/login");
         return null;
     }
-    const  {userDetails, isLoading} = useFetchUserDetails(authUser.id);
+    const  { userDetails } = useFetchUserDetails(authUser.id);
     
     return (
     <section className="profile-banner w-full flex-row">
@@ -31,12 +39,18 @@ const ProfileBanner = (props: ProfileBannerProps) => {
                 <HoverBox prompt={"Contacts"} />
              </button>
             {/* TODO: Open dialog to create new group */}
-            <button className ="icon-button" onClick={() => {}}>
+            <button className ="icon-button" onClick={() => {setCreateGroupDialog(true)}}>
                 <UsersRound />
                 <HoverBox prompt={"Create group"} />
             </button>
             <LogoutButton />
         </div>
+        {/* CREATE NEW GROUP DIALOG */}
+        {createGroupDialog ?
+            <CreateChatDialog CloseDialog={handleCloseDialog}/>
+        :
+        <></>
+        }
     </section> 
     )
 }

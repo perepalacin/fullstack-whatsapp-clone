@@ -13,11 +13,13 @@ const Home = () => {
     setTab(prevTab => !prevTab); // FUNCTION THAT CHANGES THE STATE UPDATE!
   }
 
+  
+
   return (
     <ChatsContextProvider>
       <div className='main-root'>
         <Separator />
-        <nav className='nav-bar'>
+        <nav>
           {tab ?
             <div className='w-full h-full'>
               <ProfileBanner handleTabChange={handleTabChange} />

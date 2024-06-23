@@ -8,6 +8,7 @@ interface ChatContextType {
     setSelectedChat: (openChats: String | null) => void;
     onGoingChats: OnGoingChatsProps[] | null;
     setOnGoingChats: (openChats: OnGoingChatsProps[] | null) => void;
+    systemAdminId: string; //Variable equal to process.env.SYSTEM_USER_ID
 }
 
 
@@ -33,9 +34,9 @@ export const ChatsContextProvider: React.FC<ChatsContextProviderProps> = ({ chil
     // State that holds the info about all the chats the user currently has open.
     const [onGoingChats, setOnGoingChats] = useState<OnGoingChatsProps[] | null>(null);
 
-
+    const systemAdminId = 'a9a7eac7-636f-489a-b892-6d65c10381f0';
     return (
-        <ChatsContext.Provider value={{ selectedChat, setSelectedChat, onGoingChats, setOnGoingChats }}>
+        <ChatsContext.Provider value={{systemAdminId, selectedChat, setSelectedChat, onGoingChats, setOnGoingChats }}>
             {children}
         </ChatsContext.Provider>
     );
