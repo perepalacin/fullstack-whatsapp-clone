@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import generateJWTSession from "../../utils/tokenGenerator";
 import { isString } from "../../utils/dataParser";
 import sql from "../../utils/connectToDB";
-import { publicUserDetailsProps, privateUserDetailsProps } from "../../../frontend/src/types";
+import { publicUserDetailsProps, privateUserDetailsProps } from "../../utils/backendTypes";
 import { getRandomInt } from "../../utils/helperFunctions";
 
 const router = express.Router();

@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 import sql from "./connectToDB";
 
-import { publicUserDetailsProps } from "../../frontend/src/types";
+import { publicUserDetailsProps } from "./backendTypes";
 
 
 const middleWare = async (req: Request, res: Response, next: any) => {

@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import middleWare from "../../utils/middleware";
 import sql from "../../utils/connectToDB";
-import { OnGoingChatsProps, publicUserDetailsProps } from "../../../frontend/src/types";
+import { OnGoingChatsProps, publicUserDetailsProps } from "../../utils/backendTypes";
 import uuid4 from "uuid4";
 import { getUserSocketId, io } from "../../socket/socket";
 

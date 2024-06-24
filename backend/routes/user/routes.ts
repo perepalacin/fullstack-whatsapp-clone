@@ -4,7 +4,7 @@ import sql from "../../utils/connectToDB";
 import {
   OnGoingChatsProps,
   publicUserDetailsProps,
-} from "../../../frontend/src/types";
+} from "../../utils/backendTypes";
 import { getUserSocketId, io } from "../../socket/socket";
 import { getRandomInt } from "../../utils/helperFunctions";
 
