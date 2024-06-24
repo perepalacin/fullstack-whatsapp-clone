@@ -26,7 +26,7 @@ export const useSocketContext = (): SocketContextType => {
 
 export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ children }) => {
     const [socket, setSocket] = useState<Socket | null>(null);
-    const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+    const [onlineUsers, _setOnlineUsers] = useState<string[]>([]);
 
     const {authUser} = useAuthContext();
 

@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",
+    "build": "^0.1.4",
+    "cd": "^0.3.3",
     "lucide-react": "^0.391.0",
+    "npm": "^10.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
+    "run": "^1.5.0",
     "socket.io-client": "^4.7.5",
     "zod": "^3.23.8"
   },

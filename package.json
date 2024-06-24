@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "ts-node-dev backend/server.ts",
         "lint": "ts-standard",
-        "start": "node build/index.js",
+        "start": "node build/backend/server.js",
+        "build": "npm install && npm install cd --prefix frontend && npm run build --prefix frontend",
         "tsc": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1"
     },

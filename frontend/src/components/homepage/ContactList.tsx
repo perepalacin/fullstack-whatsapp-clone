@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import useFetchContacts from '../../hooks/useFetchContacts';
 import { ArrowLeft, Search } from 'lucide-react';
-import { useAuthContext } from '../../context/AuthContext';
 import { useChatsContext } from '../../context/ChatsContext';
 import { publicUserDetailsProps } from '../../types';
 

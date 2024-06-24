@@ -5,7 +5,6 @@ import { useAuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
 import { useState } from "react";
-import ContactList from "./ContactList";
 import CreateChatDialog from "./CreateChatDialog";
 
 interface ProfileBannerProps {

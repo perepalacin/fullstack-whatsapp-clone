@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { notifyError } from "../components/Toasts";
-import { OnGoingChatsProps, publicUserDetailsProps } from "../types";
+import { publicUserDetailsProps } from "../types";
 
 const useFetchUserDetails = (user_id: String) => {
     const [isLoading, setIsLoading] = useState(false);
