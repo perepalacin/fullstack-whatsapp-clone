@@ -7,7 +7,7 @@
         "dev": "ts-node-dev backend/server.ts",
         "lint": "ts-standard",
         "start": "node build/backend/server.js",
-        "build": "npm install && npm run tsc && npm install cd --prefix frontend && npm run build --prefix frontend  && ls dist",
+        "build": "npm install && npm run tsc && npm install cd --prefix frontend && npm run build --prefix frontend  && ls -a",
         "tsc": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
