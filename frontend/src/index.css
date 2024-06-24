@@ -408,6 +408,11 @@ textarea:focus, input:focus{
     z-index: 0;
 }
 
+.group-member-label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
 .chat-bubble-origin {
     /* Display triangle on the first message! */
 	content: ' ';
