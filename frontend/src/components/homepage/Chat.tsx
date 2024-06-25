@@ -106,7 +106,11 @@ const Chat = () => {
       }}
       >
         {messages.map((item, index) => {
-          
+          if (messages.length === 0) {
+            return null;
+          } else if (messages[0].text === "") {
+            return null;
+          }
           let isFirstBubble = false;
           if (item.sender_id !== lastSender) {
             lastSender = item.sender_id;

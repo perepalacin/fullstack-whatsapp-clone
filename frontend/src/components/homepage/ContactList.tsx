@@ -44,6 +44,7 @@ const ContactList = (props: ContactListProps) => {
         }
       }
       //This chat doesnt exist, but there are other chats already going on then we create a placeholder chat to serve us on the api call and the graphics rendering.
+      console.log("add contact")
       const placeholderChats = onGoingChats;
       placeholderChats.push({
         chat_id: `new-${contact.id}`,
@@ -51,8 +52,17 @@ const ContactList = (props: ContactListProps) => {
         chat_picture: contact.profile_picture,
         chat_type: "new",
         participants: [contact],
-        messages: [],
+        messages: [
+          {
+            id: "1",
+            text: "",
+            sender_id: "",
+            chat_id: "1",
+            created_at: "2024-06-09 21:41:07.477511"
+        }
+        ],
       });
+      console.log(placeholderChats);
       setOnGoingChats(placeholderChats);
       setSelectedChat(`new-${contact.id}`);
       return;

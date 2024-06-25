@@ -21,12 +21,6 @@ router.get("/chat/:chatId/:offset", middleWare, async (req: Request, res: Respon
             return res.status(400).json({error: "Chat id improperly formatted"})
         }
 
-        //TODO: Remove this after testing
-        if (chatId.startsWith('new-')){
-            console.log("Failed chat request");
-            return null;
-        }
-
         if (!offset) {
             offset = '0'
         }
