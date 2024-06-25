@@ -34,7 +34,9 @@ router.get("/", middleWare, async (_req: Request, res: Response) => {
 
 router.get("/chats", middleWare, async (_req: Request, res: Response) => {
   try {
+    console.log("here");
     const loggedInUser = res.locals.userId;
+    console.log(loggedInUser);
     // const chats = await sql`SELECT * from chats JOIN chats_to_users ON chats_to_users.user_id = ${loggedInUser} JOIN users ON chats_to_users `;
     // const chats = await sql`SELECT * FROM messages ORDER BY created_at ASC JOIN chats_to_users ON chats_to_users.user_id = ${loggedInUser} GROUP BY chat_id`;
     const data = await sql`
