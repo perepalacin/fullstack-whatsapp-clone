@@ -14,6 +14,9 @@ const Chat = () => {
   
   const { fetchMoreMessages} = useFetchChatMsgs();
 
+  const labelColors = ['#06CF9C', '#FC9775', '#53BDEB', '#A5B337', '#E26AB6', '#A791FF', '#FEBB38'];
+
+
   useEffect(() => {
     if (!selectedChat) {
       setMessages([]);
@@ -151,7 +154,7 @@ const Chat = () => {
               {isDateChange ? <span>{lastDate.toLocaleDateString() === today.toLocaleDateString() ? "TODAY" : lastDate.toLocaleDateString()}</span> : <></>}
               <div className='flex-row w-full' style={{ justifyContent: isOwnMsg ? "end" : "start" }}>
                 <div className='chat-bubble' style={{ backgroundColor: isOwnMsg ? '#005C4B' : '#202C33' }}>
-                  {!isOwnMsg && isGroupChat ? <p>{senderFullname}</p>: <></>}
+                  {!isOwnMsg && isGroupChat ? <p className='group-member-label' style={{color: `${labelColors[senderFullname.length % labelColors.length] }`}}>{senderFullname}</p>: <></>}
                   <p>{item.text}</p>
                   <p className='msg-time'>{MessageDate.getHours() + ":" + MessageDate.getMinutes()}</p>
                   <div className={`${isFirstBubble ? 'chat-bubble-origin' : ''} ${isOwnMsg ? 'chat-bubble-own': 'chat-bubble-not-own'}`} >
