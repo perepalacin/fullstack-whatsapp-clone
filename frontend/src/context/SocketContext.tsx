@@ -32,7 +32,7 @@ export const SocketContextProvider: React.FC<SocketContextProviderProps> = ({ ch
 
     useEffect(() => {
         if (authUser) {
-            const socket = io("http://localhost:5000", {
+            const socket = io("https://whatsapp-clone-by-pere-palacin.onrender.com/", {
                 query: {
                     userId: authUser.id,
                 }
