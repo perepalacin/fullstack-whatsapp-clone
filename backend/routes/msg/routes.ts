@@ -15,12 +15,15 @@ router.get("/chat/:chatId/:offset", middleWare, async (req: Request, res: Respon
     try {
         let {chatId, offset} = req.params;
 
+        console.log(chatId);
+
         if (!chatId) {
             return res.status(400).json({error: "Chat id improperly formatted"})
         }
 
         //TODO: Remove this after testing
         if (chatId.startsWith('new-')){
+            console.log("Failed chat request");
             return null;
         }
 
@@ -48,7 +51,7 @@ router.get("/chat/:chatId/:offset", middleWare, async (req: Request, res: Respon
         }
 
         const messages = await sql`SELECT * FROM messages WHERE chat_id = ${chatId} ORDER BY created_at DESC LIMIT 20 OFFSET ${Number(offset)}`;
-        if (!messages) {
+        if (messages.length === 0 || !messages) {
             return res.status(404).json({error: "No messages were found"});
         }
 
