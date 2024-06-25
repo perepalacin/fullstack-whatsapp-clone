@@ -26,7 +26,6 @@ const Chat = () => {
     if (onGoingChats) {
       const selectedMessages = onGoingChats.find((item) => item.chat_id === selectedChat);
       if (selectedMessages) {
-        console.log(selectedMessages.messages);
         setMessages(selectedMessages.messages);
           if (chatContainerRef.current && selectedMessages.messages.length <= 20) {
               chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;

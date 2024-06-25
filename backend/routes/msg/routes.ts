@@ -15,8 +15,6 @@ router.get("/chat/:chatId/:offset", middleWare, async (req: Request, res: Respon
     try {
         let {chatId, offset} = req.params;
 
-        console.log(chatId);
-
         if (!chatId) {
             return res.status(400).json({error: "Chat id improperly formatted"})
         }

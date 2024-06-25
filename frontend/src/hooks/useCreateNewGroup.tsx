@@ -39,8 +39,6 @@ const useCreateNewGroup = () => {
         throw new Error(data.error);
       }
 
-      console.log(data);
-
       if (onGoingChats) {
         const newChatArray = [...onGoingChats];
         //Turn this into a for, break when found the chat id, shift the index to the front!

@@ -19,7 +19,6 @@ const ConversationsBar = () => {
   
     //USE EFFECT THAT HANDLES THE UPDATE OF THE SEARCH INPUT
     useEffect(() => {
-        console.log(onGoingChats);
       if (searchInput === "") {
         setFilteredChats(onGoingChats);
       } else {

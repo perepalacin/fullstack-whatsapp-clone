@@ -35,8 +35,6 @@ const useSendMsg = () => {
                     throw new Error(data.error);
                 }
 
-                console.log(data);
-
                 if (onGoingChats) {
                     const newChatArray = [...onGoingChats];
                     newChatArray.filter((chat) => {chat.chat_id.startsWith("new-")});
