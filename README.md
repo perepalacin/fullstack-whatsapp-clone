@@ -39,7 +39,7 @@ During this project, I've picked up important skills and a better understanding 
 
 ###  Web Sockets:
 - Thanks to the use of Socket.io, I was able to implement a Web Sockets protocol to communicate clients with the server in real time without refreshing the page to create a new request.
-- 
+  
 ###  Error and Response handling:
 - One of the main focuses of this project, was to dive deeper into handling the response from the server. This app features a rich notification system to let the user know what went wrong.
 
