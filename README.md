@@ -1,4 +1,4 @@
-# ✉️WhatsApp clone by Pere Palacín
+# ✉️ WhatsApp clone by Pere Palacín
 A Full Stack clone of the WhatsApp Web App created with **React** and **Node.JS** both using **TypeScript**. **Express.JS** is used to handle all the requests by the users, featuring the **Socket.io** package to send real time updates to all the online clients. **PosgreSQL** is used to store all the data. The app is not designed to be responsive. Is is deployed on Render.com at: [Whatsapp Clone by Pere Palacín](https://whatsapp-clone-by-pere-palacin.onrender.com/)
 ## 📦 Technologies
 
