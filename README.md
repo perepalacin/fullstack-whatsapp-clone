@@ -104,6 +104,7 @@ methods: ["GET", "POST"]
 4. Run `npm run start` to install all the dependancies and to get the project started.
 5. Open [http://localhost:5000](http://localhost:5173) (or the address shown in your console) in your web browser to view the app.
 
-## 🍿 Video
+## 🍿 Showcase
 
-https://youtu.be/LFqp7fKf7d8?si=91dw-vtfvIykylwv
+Watch a demonstration here: [Video]([https://youtu.be/8If4jhFIqis](https://youtu.be/LFqp7fKf7d8?si=91dw-vtfvIykylwv))
+![Alt Text - Whatsapp Clone Architecture image](https://github.com/perepalacin/fullstack-whatsapp-clone/blob/main/whatsapp-excalidraw.svg)
